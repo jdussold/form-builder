@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HTML Generator</title>
+    <link rel="stylesheet" href="assets/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-html.min.js"></script>
+    <script src="js/script.js" defer></script>
+  </head>
+  <!-- By default, light theme is active. To switch to dark, add "dark-theme" to the body. -->
+  <body class="dark-theme">
+    <header>
+      <nav>
+        <div class="nav-item">
+          <h2>&lt; FORM &gt; <span>BUILDER</span></h2>
+        </div>
+        <div class="nav-actions">
+          <div id="theme-toggle" class="nav-item">
+            <i class="fa-solid fa-sun fa-lg" onClick="app.toggleTheme()"></i>
+        </div>
+          <div class="nav-item">
+            <label>Method</label>
+            <select id="method" onchange="app.formMethodUpdate()">
+              <option value="GET">GET</option>
+              <option value="POST">POST</option>
+              <option value="PUT">PUT</option>
+              <option value="DELETE">DELETE</option>
+              <option value="PATCH">PATCH</option>
+            </select>
+          </div>
+          <div class="nav-item">
+            <label>Action</label>
+            <input
+              type="text"
+              id="url"
+              placeholder="/api/signup.php"
+              onkeyup="app.formActionUpdate()"
+            />
+          </div>
+          <div class="nav-item">
+            <button onClick="app.generateHTML()">Generate HTML</button>
+          </div>
+      </nav>
+      <div id="options" class="hidden"></div>
+    </header>
+    <main>
+      <div class="center-text">Borders will not appear on final product.</div>
+      <form
+        id="form"
+        class="form"
+        method="GET"
+        action=""
+        onclick="app.select(event)"
+      >
+        <p class="start-text">Click here to start creating your form</p>
+      </form>
+      <div class="code-container hidden">
+        <div class="code-header">
+          <h3>HTML Code</h3>
+          <button class="copy-btn" onClick="app.copyCode()">
+            <i class="fa-solid fa-copy fa-xl"></i>
+          </button>
+        </div>
+        <textarea id="code" onclick="app.select(event)"></textarea>
+      </div>
+      <!-- Toast Notification -->
+      <div id="toast-container"></div>
+    </main>
+  </body>
+</html>
