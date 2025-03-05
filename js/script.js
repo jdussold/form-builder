@@ -22,29 +22,29 @@ let app = {
       this.options.classList.remove('hidden');
       this.options.innerHTML = `
         <h3>Form</h3>
-        <button onclick="app.formAddRow('1')">Add Row (1 col)</button>
-        <button onclick="app.formAddRow('2')">Add Row (2 col)</button>
-        <button onclick="app.formAddRow('3')">Add Row (3 col)</button>
-        <button onclick="app.formAddRow('4')">Add Row (4 col)</button>
+        <button onclick="app.formAddInputGroup('1')">Add InputGroup (1 col)</button>
+        <button onclick="app.formAddInputGroup('2')">Add InputGroup (2 col)</button>
+        <button onclick="app.formAddInputGroup('3')">Add InputGroup (3 col)</button>
+        <button onclick="app.formAddInputGroup('4')">Add InputGroup (4 col)</button>
       `;
     } else if (event.target.classList.contains('start-text')) {
       this.options.classList.remove('hidden');
       this.selected.innerHTML = `<div class="start-text pointer-disabled" onclick="app.select(event)">Use the buttons above to add form elements</div>`;
       this.options.innerHTML = `
         <h3>Form</h3>
-        <button onclick="app.formAddRow('1')">Add Row (1 col)</button>
-        <button onclick="app.formAddRow('2')">Add Row (2 col)</button>
-        <button onclick="app.formAddRow('3')">Add Row (3 col)</button>
-        <button onclick="app.formAddRow('4')">Add Row (4 col)</button>
+        <button onclick="app.formAddInputGroup('1')">Add InputGroup (1 col)</button>
+        <button onclick="app.formAddInputGroup('2')">Add InputGroup (2 col)</button>
+        <button onclick="app.formAddInputGroup('3')">Add InputGroup (3 col)</button>
+        <button onclick="app.formAddInputGroup('4')">Add InputGroup (4 col)</button>
       `;
       this.form.click();
     } else if (event.target.classList.contains('form-row')) {
       this.options.innerHTML = `
         <h3>Row</h3>
-        <button onclick="app.formRowAddInput('input')">Add Input</button>
-        <button onclick="app.formRowMoveUp()"><i class="fa-solid fa-chevron-up fa-icon"></i></button>
-        <button onclick="app.formRowMoveDown()"><i class="fa-solid fa-chevron-down fa-icon"></i></button>
-        <button onclick="app.formRowDelete()"><i class="fa-solid fa-trash-can fa-icon"></i></button>
+        <button onclick="app.formInputGroupAddInput('input')">Add Input</button>
+        <button onclick="app.formInputGroupMoveUp()"><i class="fa-solid fa-chevron-up fa-icon"></i></button>
+        <button onclick="app.formInputGroupMoveDown()"><i class="fa-solid fa-chevron-down fa-icon"></i></button>
+        <button onclick="app.formInputGroupDelete()"><i class="fa-solid fa-trash-can fa-icon"></i></button>
       `;
     } else if (event.target.classList.contains('form-item')) {
       let label = this.selected.querySelector('label').innerText;
@@ -127,7 +127,7 @@ let app = {
   formActionUpdate: function (event) {
     this.form.action = event.target.value;
   },
-  formAddRow: function (cols) {
+  formAddInputGroup: function (cols) {
     // Remove the start text if it exists.
     if (this.startText) {
       this.startText.remove();
@@ -138,21 +138,21 @@ let app = {
     `;
   },
 
-  formRowMoveDown: function () {
+  formInputGroupMoveDown: function () {
     let parentElement = this.selected.parentElement;
     let nextElement = this.selected.nextElementSibling;
     if (nextElement) {
       parentElement.insertBefore(nextElement, this.selected);
     }
   },
-  formRowMoveUp: function () {
+  formInputGroupMoveUp: function () {
     let parentElement = this.selected.parentElement;
     let previousElement = this.selected.previousElementSibling;
     if (previousElement) {
       parentElement.insertBefore(this.selected, previousElement);
     }
   },
-  formRowDelete: function () {
+  formInputGroupDelete: function () {
     this.selected.remove();
     if (this.form.children.length === 0) {
       this.form.innerHTML = `<div class="start-text pointer-disabled" onclick="app.select(event)">Use the buttons above to add form elements
@@ -160,10 +160,11 @@ let app = {
       this.form.click(); // triggers app.select(event)
     }
   },
-  formRowAddInput: function () {
+  formInputGroupAddInput: function () {
+    // If type is left blank it will default to text, thus the default value is set to text to prevent cases where the value is undefined when the user doesn't select a type.
     // prettier-ignore
     this.selected.innerHTML += `
-      <div class="form-item"><label for=""></label><input name="" type=""></div>
+      <div class="form-item"><label for=""></label><input name="" type="text"></div>
     `;
   },
   formInputLabelUpdate: function (event) {
