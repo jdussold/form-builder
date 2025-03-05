@@ -201,8 +201,6 @@ let app = {
       /<div data-lastpass-icon-root=""(.*?)>\<\/div\>/gim,
       ''
     );
-    // Insert newline between tags
-    html = html.replace(/></g, '>\n<');
     // Remove extra blank lines
     html = html
       .split('\n')
