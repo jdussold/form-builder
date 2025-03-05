@@ -470,3 +470,66 @@ main {
     opacity: 0;
   }
 }
+
+/* Responsive Styles */
+@media screen and (max-width: 953px) {
+  /* Make sure form rows don't break */
+  #form .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  /* Fix grid layouts breaking */
+  .form-col-2,
+  .form-col-3,
+  .form-col-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 838px) {
+  /* Center header title at top */
+  header nav {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  header nav .nav-item h2 {
+    text-align: center;
+    width: 100%;
+  }
+
+  header .nav-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 0.75rem;
+    padding: 0 1rem;
+  }
+
+  header .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    justify-content: center;
+    width: auto;
+  }
+
+  header .nav-item label {
+    min-width: 60px;
+    text-align: right;
+  }
+
+  header .nav-item select,
+  header .nav-item input[type='text'] {
+    width: 200px;
+    max-width: 100%;
+  }
+}
