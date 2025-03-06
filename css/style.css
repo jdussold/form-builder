@@ -168,7 +168,8 @@ header .nav-actions button:hover {
   background-color: #99f666;
 }
 
-header #options {
+header #options,
+header #options2 {
   display: flex;
   align-items: center;
   flex-wrap: wrap; /* allow for multiple lines if needed */
@@ -185,7 +186,12 @@ header #options {
     border-top-color 0.5s ease, opacity 0.5s ease;
 }
 
-header #options.hidden {
+header #options2 {
+  background-color: var(--bg-container-hover);
+}
+
+header #options.hidden,
+header #options2.hidden {
   max-height: 0;
   padding-top: 0;
   padding-bottom: 0;
@@ -193,12 +199,14 @@ header #options.hidden {
   opacity: 0;
 }
 
-header #options h3 {
+header #options h3,
+header #options2 h3 {
   font-weight: 400;
   margin-right: 24px;
 }
 
-header #options input[type='text'] {
+header #options input[type='text'],
+header #options2 input[type='text'] {
   padding: 5px 10px;
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -206,7 +214,8 @@ header #options input[type='text'] {
   color: var(--text-placeholder);
 }
 
-header #options select {
+header #options select,
+header #options2 select {
   padding: 5px;
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -214,7 +223,8 @@ header #options select {
   color: var(--text-interactive);
 }
 
-header #options button {
+header #options button,
+header #options2 button {
   padding: 5px 10px;
   border: none;
   border-radius: 4px;
@@ -223,8 +233,14 @@ header #options button {
   cursor: pointer;
 }
 
-header #options button:hover {
+header #options button:hover,
+header #options2 button:hover {
   background-color: var(--btn-hover);
+}
+
+header #options .delete-btn,
+header #options2 .remove-option-btn {
+  background-color: var(--status-error);
 }
 
 .fa-icon {

@@ -19,7 +19,7 @@
         <div class="nav-actions">
           <div id="theme-toggle" class="nav-item">
             <i class="fa-solid fa-sun fa-lg" onClick="app.toggleTheme()"></i>
-        </div>
+          </div>
           <div class="nav-item">
             <label>Method</label>
             <select id="method" onchange="app.formMethodUpdate()">
@@ -42,8 +42,19 @@
           <div class="nav-item">
             <button onClick="app.generateHTML()">Generate HTML</button>
           </div>
+        </div>
       </nav>
       <div id="options" class="hidden"></div>
+      <div id="options2" class="hidden">
+        <button onclick="app.formInputAddOption">Add Option</button>
+        <button
+          class="remove-option-btn"
+          aria-label="remove option"
+          onclick="app.formInputRemoveOption"
+        >
+          <i class="fa-solid fa-trash-can fa-icon"></i>
+        </button>
+      </div>
     </header>
     <main>
       <div class="center-text">Borders will not appear on final product.</div>

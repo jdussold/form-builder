@@ -2,56 +2,27 @@ let app = {
   selected: null,
   form: document.querySelector('#form'),
   options: document.querySelector('#options'),
+  options2: document.querySelector('#options2'),
   startText: document.querySelector('.start-text'),
   codeContainer: document.querySelector('.code-container'),
   code: document.querySelector('#code'),
-
-  select: function (event) {
-    this.selected = event.target;
-    // Remove the 'selected' class from all elements
-    this.code.classList.remove('selected');
-    this.form.classList.remove('selected');
-    this.form.querySelectorAll('.selected').forEach((element) => {
-      element.classList.remove('selected');
-    });
-    event.target.classList.add('selected');
-    console.log(event.target);
-
-    // Update options
-    if (event.target.classList.contains('form')) {
-      this.options.classList.remove('hidden');
-      this.options.innerHTML = `
+  formOptionsHTML: `
         <h3>Form</h3>
         <button onclick="app.formAddInputGroup('1')">Add InputGroup (1 col)</button>
         <button onclick="app.formAddInputGroup('2')">Add InputGroup (2 col)</button>
         <button onclick="app.formAddInputGroup('3')">Add InputGroup (3 col)</button>
         <button onclick="app.formAddInputGroup('4')">Add InputGroup (4 col)</button>
-      `;
-    } else if (event.target.classList.contains('start-text')) {
-      this.options.classList.remove('hidden');
-      this.selected.innerHTML = `<div class="start-text pointer-disabled" onclick="app.select(event)">Use the buttons above to add form elements</div>`;
-      this.options.innerHTML = `
-        <h3>Form</h3>
-        <button onclick="app.formAddInputGroup('1')">Add InputGroup (1 col)</button>
-        <button onclick="app.formAddInputGroup('2')">Add InputGroup (2 col)</button>
-        <button onclick="app.formAddInputGroup('3')">Add InputGroup (3 col)</button>
-        <button onclick="app.formAddInputGroup('4')">Add InputGroup (4 col)</button>
-      `;
-      this.form.click();
-    } else if (event.target.classList.contains('form-row')) {
-      this.options.innerHTML = `
-        <h3>Row</h3>
-        <button onclick="app.formInputGroupAddInput('input')">Add Input</button>
-        <button onclick="app.formInputGroupMoveUp()"><i class="fa-solid fa-chevron-up fa-icon"></i></button>
-        <button onclick="app.formInputGroupMoveDown()"><i class="fa-solid fa-chevron-down fa-icon"></i></button>
-        <button onclick="app.formInputGroupDelete()"><i class="fa-solid fa-trash-can fa-icon"></i></button>
-      `;
-    } else if (event.target.classList.contains('form-item')) {
-      let label = this.selected.querySelector('label').innerText;
-      let type = this.selected.querySelector('input').type;
-      let placeholder = this.selected.querySelector('input').placeholder;
-      // prettier-ignore
-      this.options.innerHTML = `
+      `,
+
+  getInputOptionsHTML: function () {
+    let label = this.selected.querySelector('label')
+      ? this.selected.querySelector('label').innerText
+      : '';
+    let inputEl = this.selected.querySelector('input');
+    let type = inputEl ? inputEl.type : 'text';
+    let placeholder = inputEl ? inputEl.placeholder : '';
+    // prettier-ignore
+    return `
         <h3>Input</h3>
         <label for="label">Label</label>
         <input type="text" placeholder="Label" id="label" value="${label}" onkeyup="app.formInputLabelUpdate(event)">
@@ -103,6 +74,52 @@ let app = {
         <button onclick="app.formInputDown()"><i class="fa-solid fa-chevron-down fa-icon"></i></button>
         <button class="delete-btn" onclick="app.formInputDelete()"><i class="fa-solid fa-trash-can fa-icon"></i></button>
       `;
+  },
+
+  select: function (event) {
+    this.selected = event.target;
+    // Remove the 'selected' class from all elements
+    this.code.classList.remove('selected');
+    this.form.classList.remove('selected');
+    this.form.querySelectorAll('.selected').forEach((element) => {
+      element.classList.remove('selected');
+    });
+    event.target.classList.add('selected');
+    console.log(event.target);
+
+    // Update options based on the target's class
+    if (event.target.classList.contains('form')) {
+      this.options.classList.remove('hidden');
+      this.options2.classList.add('hidden');
+      this.options.innerHTML = this.formOptionsHTML;
+    } else if (event.target.classList.contains('start-text')) {
+      this.options.classList.remove('hidden');
+      this.selected.innerHTML = `<div class="start-text pointer-disabled" onclick="app.select(event)">Use the buttons above to add form elements</div>`;
+      this.options.innerHTML = this.formOptionsHTML;
+      this.form.click();
+    } else if (event.target.classList.contains('form-row')) {
+      this.options2.classList.add('hidden');
+      this.options.innerHTML = `
+        <h3>Row</h3>
+        <button onclick="app.formInputGroupAddInput('input')">Add Input</button>
+        <button onclick="app.formInputGroupMoveUp()"><i class="fa-solid fa-chevron-up fa-icon"></i></button>
+        <button onclick="app.formInputGroupMoveDown()"><i class="fa-solid fa-chevron-down fa-icon"></i></button>
+        <button onclick="app.formInputGroupDelete()"><i class="fa-solid fa-trash-can fa-icon"></i></button>
+      `;
+    } else if (
+      event.target.classList.contains('form-item') &&
+      event.target.querySelector('input').type !== 'radio' &&
+      event.target.querySelector('input').type !== 'checkbox'
+    ) {
+      this.options2.classList.add('hidden');
+      this.options.innerHTML = this.getInputOptionsHTML();
+    } else if (
+      event.target.classList.contains('form-item') &&
+      (event.target.querySelector('input').type === 'radio' ||
+        event.target.querySelector('input').type === 'checkbox')
+    ) {
+      this.options2.classList.remove('hidden');
+      this.options.innerHTML = this.getInputOptionsHTML();
     }
   },
 
@@ -132,7 +149,6 @@ let app = {
     if (this.startText) {
       this.startText.remove();
     }
-    // prettier-ignore
     this.form.innerHTML += `
       <div class="form-row form-col-${cols}" onclick="app.select(event)"></div>
     `;
@@ -155,14 +171,11 @@ let app = {
   formInputGroupDelete: function () {
     this.selected.remove();
     if (this.form.children.length === 0) {
-      this.form.innerHTML = `<div class="start-text pointer-disabled" onclick="app.select(event)">Use the buttons above to add form elements
-      </div>`;
+      this.form.innerHTML = `<div class="start-text pointer-disabled" onclick="app.select(event)">Use the buttons above to add form elements</div>`;
       this.form.click(); // triggers app.select(event)
     }
   },
   formInputGroupAddInput: function () {
-    // If type is left blank it will default to text, thus the default value is set to text to prevent cases where the value is undefined when the user doesn't select a type.
-    // prettier-ignore
     this.selected.innerHTML += `
       <div class="form-item"><label for=""></label><input name="" type="text"></div>
     `;
@@ -174,7 +187,25 @@ let app = {
     this.selected.querySelector('input').placeholder = event.target.value;
   },
   formInputTypeUpdate: function (event) {
-    this.selected.querySelector('input').type = event.target.value;
+    if (event.target.value === 'radio') {
+      this.selected.innerHTML = `
+        <div id="radio-group" class="form-item">
+          <input name="radioGroup" type="radio" value="Option 1">
+          <label for="Option 1"></label>
+        </div>
+      `;
+      this.options2.classList.remove('hidden');
+    } else if (event.target.value === 'checkbox') {
+      this.selected.innerHTML = `
+        <div id="checkbox-group" class="form-item">
+          <input name="checkboxGroup" type="checkbox" value="Option 1">
+          <label for="Option 1"></label>
+        </div>
+      `;
+      this.options2.classList.remove('hidden');
+    } else {
+      this.selected.querySelector('input').type = event.target.value;
+    }
   },
   formInputDown: function () {
     let parentElement = this.selected.parentElement;
@@ -202,7 +233,6 @@ let app = {
       /<div data-lastpass-icon-root=""(.*?)>\<\/div\>/gim,
       ''
     );
-    // Remove extra blank lines
     html = html
       .split('\n')
       .map((line) => line.trim())
@@ -231,7 +261,6 @@ let app = {
           this.showToast('Failed to copy. Please try again.', 'error');
         });
     } else {
-      // Fallback for older browsers
       this.code.select();
       document.execCommand('copy');
       this.showToast('Code copied successfully!', 'success');
@@ -246,7 +275,6 @@ let app = {
 
     toastContainer.appendChild(toast);
 
-    // Remove toast after animation
     setTimeout(() => {
       toast.remove();
     }, 2500);
