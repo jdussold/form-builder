@@ -100,11 +100,11 @@ let app = {
     } else if (event.target.classList.contains('form-row')) {
       this.options2.classList.add('hidden');
       this.options.innerHTML = `
-        <h3>Row</h3>
+        <h3>Inputs</h3>
         <button onclick="app.formInputGroupAddInput('input')">Add Input</button>
         <button onclick="app.formInputGroupMoveUp()"><i class="fa-solid fa-chevron-up fa-icon"></i></button>
         <button onclick="app.formInputGroupMoveDown()"><i class="fa-solid fa-chevron-down fa-icon"></i></button>
-        <button onclick="app.formInputGroupDelete()"><i class="fa-solid fa-trash-can fa-icon"></i></button>
+        <button class="delete-btn" onclick="app.formInputGroupDelete()"><i class="fa-solid fa-trash-can fa-icon"></i></button>
       `;
     } else if (
       event.target.classList.contains('form-item') &&
@@ -190,16 +190,20 @@ let app = {
     if (event.target.value === 'radio') {
       this.selected.innerHTML = `
         <div id="radio-group" class="form-item">
-          <input name="radioGroup" type="radio" value="Option 1">
-          <label for="Option 1"></label>
+          <div class="form-item option">
+            <input name="radioGroup" type="radio" value="Option 1" id="option1">
+            <label for="option1">Option 1</label>
+          </div>
         </div>
       `;
       this.options2.classList.remove('hidden');
     } else if (event.target.value === 'checkbox') {
       this.selected.innerHTML = `
         <div id="checkbox-group" class="form-item">
-          <input name="checkboxGroup" type="checkbox" value="Option 1">
-          <label for="Option 1"></label>
+          <div class="form-item option">
+            <input name="checkboxGroup" type="checkbox" value="Option 1" id="option1">
+            <label for="option1">Option 1</label>
+          </div>
         </div>
       `;
       this.options2.classList.remove('hidden');
@@ -226,6 +230,27 @@ let app = {
     this.selected.remove();
     target.click();
   },
+  formInputAddOption: function () {
+    let childElement =
+      this.selected.querySelector('#radio-group') ||
+      this.selected.querySelector('#checkbox-group');
+
+    let optionCount = childElement.querySelectorAll('input').length;
+    let inputType = childElement.querySelector('input').type;
+    let inputName = inputType === 'radio' ? 'radioGroup' : 'checkboxGroup';
+    let optionNumber = optionCount + 1;
+    let optionValue = `Option ${optionNumber}`;
+
+    let newOptionHTML = `
+      <div class="form-item option">
+        <input name="${inputName}" type="${inputType}" value="${optionValue}" id="option${optionNumber}">
+        <label for="option${optionNumber}">${optionValue}</label>
+      </div>
+    `;
+
+    childElement.innerHTML += newOptionHTML;
+  },
+
   generateHTML: function () {
     let html = this.form.outerHTML;
     html = html.replace(/ onclick\=\"(.*?)\"/gim, '');

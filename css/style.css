@@ -21,8 +21,10 @@
   /* Status Colors */
   --status-success: #00e200;
   --status-warning: #ffaf3d;
+  --status-warning-hover: #ff8c00;
   --status-in-progress: #fad800;
   --status-error: #ff2a04;
+  --status-error-hover: #c8102e;
   --status-info: #64d9ff;
 
   /* Border Colors */
@@ -68,8 +70,10 @@
 
   --status-success: #56f000;
   --status-warning: #ffb302;
+  --status-warning-hover: #ffcc57;
   --status-in-progress: #fceb3a;
   --status-error: #ff3b38;
+  --status-error-hover: #ff5f60;
   --status-info: #00c7cb;
 
   --border: var(--btn);
@@ -172,7 +176,7 @@ header #options,
 header #options2 {
   display: flex;
   align-items: center;
-  flex-wrap: wrap; /* allow for multiple lines if needed */
+  flex-wrap: wrap;
   gap: 1rem;
   border-top: 1px solid rgba(0, 0, 0, 0.3);
   background-color: var(--bg-container);
@@ -180,23 +184,25 @@ header #options2 {
 
   /* For sliding & fading effect */
   overflow: hidden;
-  max-height: 500px;
+  height: auto;
+  transform: scaleY(1);
+  transform-origin: top;
   opacity: 1;
-  transition: max-height 0.5s ease, padding 0.5s ease,
-    border-top-color 0.5s ease, opacity 0.5s ease;
-}
-
-header #options2 {
-  background-color: var(--bg-container-hover);
+  transition: transform 0.3s ease-out, opacity 0.3s ease-out,
+    padding 0.3s ease-out;
 }
 
 header #options.hidden,
 header #options2.hidden {
-  max-height: 0;
+  transform: scaleY(0);
+  opacity: 0;
   padding-top: 0;
   padding-bottom: 0;
-  border-top-color: transparent;
-  opacity: 0;
+  height: 0;
+}
+
+header #options2 {
+  background-color: var(--bg-container-hover);
 }
 
 header #options h3,
@@ -240,7 +246,12 @@ header #options2 button:hover {
 
 header #options .delete-btn,
 header #options2 .remove-option-btn {
-  background-color: var(--status-error);
+  background-color: var(--status-warning);
+}
+
+header #options .delete-btn:hover,
+header #options2 .remove-option-btn:hover {
+  background-color: var(--status-warning-hover);
 }
 
 .fa-icon {
