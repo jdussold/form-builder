@@ -61,13 +61,17 @@ Check out the live app here: [Form Builder Live Demo](https://jdussold.github.io
 
 ## Screenshots
 
-![Form Builder Interface](./assets/img/form-builder-main-interface.png)
+- **Main Interface**
+  ![Form Builder Interface](./assets/img/form-builder-main-interface.png)
 
-![Form Builder Code Generation View](./assets/img/form-builder-code-generation-view.png)
+- **HTML Generated Code**
+  ![Form Builder Code Generation View](./assets/img/form-builder-code-generation-view.png)
 
-![Light Mode Theme](./assets/img/light-mode.png)
+- **Light Mode Example**
+  ![Light Mode Theme](./assets/img/light-mode.png)
 
-![Dark Mode Theme](./assets/img/dark-mode.png)
+- **Dark Mode Example**
+  ![Dark Mode Theme](./assets/img/dark-mode.png)
 
 ## Future Updates / To-Do
 
