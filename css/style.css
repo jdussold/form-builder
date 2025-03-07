@@ -367,7 +367,12 @@ main {
   background: var(--bg-container-selected);
 }
 
-#form .form-row .form-item .form-item.option > * {
+#form .form-row .form-item:has(.form-item.option) .form-item.option > * {
+  pointer-events: none;
+  user-select: none;
+}
+
+#form .form-row .form-item:not(:has(.form-item.option)) > * {
   pointer-events: none;
   user-select: none;
 }

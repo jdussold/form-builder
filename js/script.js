@@ -21,14 +21,10 @@ let app = {
     let inputEl = this.selected.querySelector('input');
     let type = inputEl ? inputEl.type : 'text';
     let placeholder = inputEl ? inputEl.placeholder : '';
+    let name = inputEl ? inputEl.name : '';
     // prettier-ignore
     return `
-        <h3>Input</h3>
-        <label for="label">Label</label>
-        <input type="text" placeholder="Label" id="label" value="${label}" onkeyup="app.formInputLabelUpdate(event)">
-
-        <label for="placeholder">Placeholder</label>
-        <input type="text" placeholder="Placeholder" id="placeholder" value="${placeholder}" onkeyup="app.formInputPlaceholderUpdate(event)">
+        <h3>Inputs:</h3>
 
         <label for="type">Type</label>
         <select id="type" onchange="app.formInputTypeUpdate(event)">
@@ -70,8 +66,17 @@ let app = {
             <option value="hidden" ${type === 'hidden' ? 'selected' : ''}>Hidden Field</option>
         </select>
 
-        <button onclick="app.formInputUp()"><i class="fa-solid fa-chevron-up fa-icon"></i></button>
-        <button onclick="app.formInputDown()"><i class="fa-solid fa-chevron-down fa-icon"></i></button>
+        <label for="name">Name</label>
+        <input type="text" placeholder="Name" id="name" value="${name}" onkeyup="app.formInputNameUpdate(event)">
+        
+        <label for="label">Label</label>
+        <input type="text" placeholder="Label" id="label" value="${label}" onkeyup="app.formInputLabelUpdate(event)">
+
+        <label for="placeholder">Placeholder</label>
+        <input type="text" placeholder="Placeholder" id="placeholder" value="${placeholder}" onkeyup="app.formInputPlaceholderUpdate(event)">
+
+        <button onclick="app.formInputUp()"><i class="fa-solid fa-arrow-up fa-icon"></i></button>
+        <button onclick="app.formInputDown()"><i class="fa-solid fa-arrow-down fa-icon"></i></button>
         <button class="delete-btn" onclick="app.formInputDelete()"><i class="fa-solid fa-trash-can fa-icon"></i></button>
       `;
   },
@@ -100,10 +105,10 @@ let app = {
     } else if (event.target.classList.contains('form-row')) {
       this.options2.classList.add('hidden');
       this.options.innerHTML = `
-        <h3>Inputs</h3>
+        <h3>Inputs:</h3>
         <button onclick="app.formInputGroupAddInput('input')">Add Input</button>
-        <button onclick="app.formInputGroupMoveUp()"><i class="fa-solid fa-chevron-up fa-icon"></i></button>
-        <button onclick="app.formInputGroupMoveDown()"><i class="fa-solid fa-chevron-down fa-icon"></i></button>
+        <button onclick="app.formInputGroupMoveUp()"><i class="fa-solid fa-arrow-up fa-icon"></i></button>
+        <button onclick="app.formInputGroupMoveDown()"><i class="fa-solid fa-arrow-down fa-icon"></i></button>
         <button class="delete-btn" onclick="app.formInputGroupDelete()"><i class="fa-solid fa-trash-can fa-icon"></i></button>
       `;
     } else if (
@@ -149,9 +154,11 @@ let app = {
   formMethodUpdate: function (event) {
     this.form.method = event.target.value;
   },
+
   formActionUpdate: function (event) {
     this.form.action = event.target.value;
   },
+
   formAddInputGroup: function (cols) {
     // Remove the start text if it exists.
     if (this.startText) {
@@ -169,6 +176,7 @@ let app = {
       parentElement.insertBefore(nextElement, this.selected);
     }
   },
+
   formInputGroupMoveUp: function () {
     let parentElement = this.selected.parentElement;
     let previousElement = this.selected.previousElementSibling;
@@ -176,6 +184,7 @@ let app = {
       parentElement.insertBefore(this.selected, previousElement);
     }
   },
+
   formInputGroupDelete: function () {
     this.selected.remove();
     if (this.form.children.length === 0) {
@@ -183,17 +192,25 @@ let app = {
       this.form.click(); // triggers app.select(event)
     }
   },
+
   formInputGroupAddInput: function () {
     this.selected.innerHTML += `
       <div class="form-item"><label for=""></label><input name="" type="text"></div>
     `;
   },
+
+  formInputNameUpdate: function (event) {
+    this.selected.querySelector('input').name = event.target.value;
+  },
+
   formInputLabelUpdate: function (event) {
     this.selected.querySelector('label').innerText = event.target.value;
   },
+
   formInputPlaceholderUpdate: function (event) {
     this.selected.querySelector('input').placeholder = event.target.value;
   },
+
   formInputTypeUpdate: function (event) {
     if (event.target.value === 'radio' || event.target.value === 'checkbox') {
       let inputType = event.target.value;
@@ -221,6 +238,7 @@ let app = {
       parentElement.insertBefore(nextElement, this.selected);
     }
   },
+
   formInputUp: function () {
     let parentElement = this.selected.parentElement;
     let previousElement = this.selected.previousElementSibling;
@@ -228,13 +246,14 @@ let app = {
       parentElement.insertBefore(this.selected, previousElement);
     }
   },
+
   formInputDelete: function () {
     let target = this.selected.parentElement;
     this.selected.remove();
     target.click();
   },
+
   formInputAddOption: function () {
-    // Look for an existing option inside the selected form-item
     let optionsContainer = this.selected;
     let optionCount =
       optionsContainer.querySelectorAll('.form-item.option').length;
@@ -255,6 +274,27 @@ let app = {
     `;
 
     optionsContainer.innerHTML += newOptionHTML;
+  },
+
+  formOptionMoveUp: function () {
+    let parentElement = this.selected.parentElement;
+    let previousElement = this.selected.previousElementSibling;
+    if (previousElement) {
+      parentElement.insertBefore(this.selected, previousElement);
+    }
+  },
+
+  formOptionMoveDown: function () {
+    let parentElement = this.selected.parentElement;
+    let nextElement = this.selected.nextElementSibling;
+    if (nextElement) {
+      parentElement.insertBefore(nextElement, this.selected);
+    }
+  },
+
+  formInputRemoveOption: function () {
+    let option = this.selected;
+    option.remove();
   },
 
   generateHTML: function () {

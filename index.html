@@ -46,9 +46,15 @@
       </nav>
       <div id="options" class="hidden"></div>
       <div id="options2" class="hidden">
+        <h3>Options:</h3>
         <button class="add-option-btn" onclick="app.formInputAddOption()">
           Add Option
         </button>
+        <button class="option-move-up" onclick="app.formOptionMoveUp()">
+          <i class="fa-solid fa-arrow-up fa-icon"></i>
+        </button>
+        <button class="option-move-down" onclick="app.formOptionMoveDown()">
+          <i class="fa-solid fa-arrow-down fa-icon"></i>
         <button
           class="remove-option-btn"
           aria-label="remove option"
