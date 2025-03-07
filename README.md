@@ -61,8 +61,6 @@ Check out the live app here: [Form Builder Live Demo](https://jdussold.github.io
 
 ## Screenshots
 
-_Consider adding screenshots here to visually demonstrate:_
-
 ![Form Builder Interface](./assets/img/form-builder-main-interface.png)
 
 ![Form Builder Code Generation View](./assets/img/form-builder-code-generation-view.png)
