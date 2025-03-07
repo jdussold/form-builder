@@ -118,6 +118,12 @@ let app = {
     ) {
       this.options2.classList.add('hidden');
       this.options.innerHTML = this.getInputOptionsHTML();
+
+      const promptInput = document.getElementById('prompt');
+      const promptEl = event.target.querySelector('.option-prompt');
+      if (promptInput && promptEl) {
+        promptInput.value = promptEl.innerText;
+      }
     } else if (
       event.target.classList.contains('form-item') &&
       (event.target.querySelector('input').type === 'radio' ||
@@ -132,6 +138,17 @@ let app = {
         addOptionBtn.disabled = true;
       } else {
         addOptionBtn.disabled = false;
+      }
+
+      if (this.selected.classList.contains('option')) {
+        document.getElementById('prompt').disabled = true;
+        document.getElementById('prompt').value = '';
+        document.getElementById('prompt').placeholder = 'Not editable';
+      } else {
+        document.getElementById('prompt').disabled = false;
+        document.getElementById('prompt').value =
+          this.selected.querySelector('.option-prompt').innerText;
+        document.getElementById('prompt').placeholder = 'Enter prompt/question';
       }
     }
   },
@@ -214,28 +231,21 @@ let app = {
   formInputTypeUpdate: function (event) {
     if (event.target.value === 'radio' || event.target.value === 'checkbox') {
       let inputType = event.target.value;
-      let inputName = inputType === 'radio' ? 'radioGroup' : 'checkboxGroup';
 
       this.selected.innerHTML = `
+          <p class="option-prompt">Prompt/Question</p>
           <div class="form-item option">
-            <input name="${inputName}" type="${inputType}" value="Option 1" id="option1">
+            <input name="" type="${inputType}" value="Option 1" id="option1">
             <label for="option1">Option 1</label>
           </div>
         `;
       this.options2.classList.remove('hidden');
       let addOptionBtn = this.options2.querySelector('.add-option-btn');
       addOptionBtn.disabled = false;
+      document.getElementById('prompt').value = 'Prompt/Question';
     } else {
       let inputEl = this.selected.querySelector('input');
       inputEl.type = event.target.value;
-    }
-  },
-
-  formInputDown: function () {
-    let parentElement = this.selected.parentElement;
-    let nextElement = this.selected.nextElementSibling;
-    if (nextElement) {
-      parentElement.insertBefore(nextElement, this.selected);
     }
   },
 
@@ -244,6 +254,14 @@ let app = {
     let previousElement = this.selected.previousElementSibling;
     if (previousElement) {
       parentElement.insertBefore(this.selected, previousElement);
+    }
+  },
+
+  formInputDown: function () {
+    let parentElement = this.selected.parentElement;
+    let nextElement = this.selected.nextElementSibling;
+    if (nextElement) {
+      parentElement.insertBefore(nextElement, this.selected);
     }
   },
 
@@ -262,18 +280,22 @@ let app = {
     if (!inputEl) return; // Exit if there's no input to determine type
 
     let inputType = inputEl.type;
-    let inputName = inputType === 'radio' ? 'radioGroup' : 'checkboxGroup';
     let optionNumber = optionCount + 1;
     let optionValue = `Option ${optionNumber}`;
 
-    let newOptionHTML = `
+    let newOptionHTML = `    
       <div class="form-item option">
-        <input name="${inputName}" type="${inputType}" value="${optionValue}" id="option${optionNumber}">
+        <input name="" type="${inputType}" value="${optionValue}" id="option${optionNumber}">
         <label for="option${optionNumber}">${optionValue}</label>
       </div>
     `;
 
     optionsContainer.innerHTML += newOptionHTML;
+  },
+
+  formOptionAddPrompt: function (event) {
+    this.selected.querySelector('.option-prompt').innerText =
+      event.target.value;
   },
 
   formOptionMoveUp: function () {

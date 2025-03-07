@@ -261,6 +261,12 @@ header #options2 .remove-option-btn:hover {
   background-color: var(--status-warning-hover);
 }
 
+header #options input[type='text']:disabled,
+header #options2 input[type='text']:disabled {
+  border-color: var(--border-muted);
+  cursor: not-allowed;
+}
+
 .fa-icon {
   color: var(--bg-container);
 }
@@ -367,12 +373,9 @@ main {
   background: var(--bg-container-selected);
 }
 
-#form .form-row .form-item:has(.form-item.option) .form-item.option > * {
-  pointer-events: none;
-  user-select: none;
-}
-
-#form .form-row .form-item:not(:has(.form-item.option)) > * {
+#form .form-row .form-item .option-prompt,
+#form .form-row .form-item.option input,
+#form .form-row .form-item.option label {
   pointer-events: none;
   user-select: none;
 }

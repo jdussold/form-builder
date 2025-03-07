@@ -47,9 +47,8 @@
       <div id="options" class="hidden"></div>
       <div id="options2" class="hidden">
         <h3>Options:</h3>
-        <button class="add-option-btn" onclick="app.formInputAddOption()">
-          Add Option
-        </button>
+        <label for="prompt">Prompt</label>
+        <input type="text" id="prompt" placeholder="Enter prompt" onkeyup="app.formOptionAddPrompt(event)" />
         <button class="option-move-up" onclick="app.formOptionMoveUp()">
           <i class="fa-solid fa-arrow-up fa-icon"></i>
         </button>
@@ -61,6 +60,9 @@
           onclick="app.formInputRemoveOption()"
         >
           <i class="fa-solid fa-trash-can fa-icon"></i>
+        </button>
+        <button class="add-option-btn" onclick="app.formInputAddOption()">
+          Add Option
         </button>
       </div>
     </header>
