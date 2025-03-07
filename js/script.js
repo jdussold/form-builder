@@ -120,6 +120,14 @@ let app = {
     ) {
       this.options2.classList.remove('hidden');
       this.options.innerHTML = this.getInputOptionsHTML();
+
+      // Disable the "Add Option" button if a .option is selected
+      let addOptionBtn = this.options2.querySelector('.add-option-btn');
+      if (event.target.classList.contains('option')) {
+        addOptionBtn.disabled = true;
+      } else {
+        addOptionBtn.disabled = false;
+      }
     }
   },
 
@@ -187,30 +195,25 @@ let app = {
     this.selected.querySelector('input').placeholder = event.target.value;
   },
   formInputTypeUpdate: function (event) {
-    if (event.target.value === 'radio') {
+    if (event.target.value === 'radio' || event.target.value === 'checkbox') {
+      let inputType = event.target.value;
+      let inputName = inputType === 'radio' ? 'radioGroup' : 'checkboxGroup';
+
       this.selected.innerHTML = `
-        <div id="radio-group" class="form-item">
           <div class="form-item option">
-            <input name="radioGroup" type="radio" value="Option 1" id="option1">
+            <input name="${inputName}" type="${inputType}" value="Option 1" id="option1">
             <label for="option1">Option 1</label>
           </div>
-        </div>
-      `;
+        `;
       this.options2.classList.remove('hidden');
-    } else if (event.target.value === 'checkbox') {
-      this.selected.innerHTML = `
-        <div id="checkbox-group" class="form-item">
-          <div class="form-item option">
-            <input name="checkboxGroup" type="checkbox" value="Option 1" id="option1">
-            <label for="option1">Option 1</label>
-          </div>
-        </div>
-      `;
-      this.options2.classList.remove('hidden');
+      let addOptionBtn = this.options2.querySelector('.add-option-btn');
+      addOptionBtn.disabled = false;
     } else {
-      this.selected.querySelector('input').type = event.target.value;
+      let inputEl = this.selected.querySelector('input');
+      inputEl.type = event.target.value;
     }
   },
+
   formInputDown: function () {
     let parentElement = this.selected.parentElement;
     let nextElement = this.selected.nextElementSibling;
@@ -231,12 +234,15 @@ let app = {
     target.click();
   },
   formInputAddOption: function () {
-    let childElement =
-      this.selected.querySelector('#radio-group') ||
-      this.selected.querySelector('#checkbox-group');
+    // Look for an existing option inside the selected form-item
+    let optionsContainer = this.selected;
+    let optionCount =
+      optionsContainer.querySelectorAll('.form-item.option').length;
 
-    let optionCount = childElement.querySelectorAll('input').length;
-    let inputType = childElement.querySelector('input').type;
+    let inputEl = optionsContainer.querySelector('input');
+    if (!inputEl) return; // Exit if there's no input to determine type
+
+    let inputType = inputEl.type;
     let inputName = inputType === 'radio' ? 'radioGroup' : 'checkboxGroup';
     let optionNumber = optionCount + 1;
     let optionValue = `Option ${optionNumber}`;
@@ -248,7 +254,7 @@ let app = {
       </div>
     `;
 
-    childElement.innerHTML += newOptionHTML;
+    optionsContainer.innerHTML += newOptionHTML;
   },
 
   generateHTML: function () {
