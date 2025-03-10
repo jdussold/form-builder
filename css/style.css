@@ -284,7 +284,8 @@ header #options2 {
 }
 
 header label,
-header button {
+header #options button,
+header #options2 button {
   margin-right: -1.5rem;
 }
 
@@ -318,6 +319,15 @@ header #options2 input[type='text'] {
   border-radius: 4px;
   background-color: var(--bg-page);
   color: var(--text);
+}
+
+header #options select:disabled,
+header #options2 select:disabled,
+header #options input[type='text']:disabled,
+header #options2 input[type='text']:disabled {
+  border-color: var(--border-muted);
+  cursor: not-allowed;
+  color: var(--text-placeholder);
 }
 
 header #options select,

@@ -62,6 +62,7 @@ let app = {
             <option value="submit" ${type === 'submit' ? 'selected' : ''}>Submit Button</option>
             <option value="reset" ${type === 'reset' ? 'selected' : ''}>Reset Button</option>
             <option value="button" ${type === 'button' ? 'selected' : ''}>Button</option>
+            <option value="image" ${type === 'image' ? 'selected' : ''}>Image Button</option>
 
             <!-- Hidden Fields -->
             <option value="hidden" ${type === 'hidden' ? 'selected' : ''}>Hidden Field</option>
@@ -165,8 +166,10 @@ let app = {
     let body = document.body;
     if (checkbox.checked) {
       body.classList.add('dark-theme');
+      localStorage.setItem('theme', 'dark');
     } else {
       body.classList.remove('dark-theme');
+      localStorage.setItem('theme', 'light');
     }
   },
 
@@ -247,6 +250,7 @@ let app = {
       document.getElementById('prompt').value = 'Prompt/Question';
     } else {
       this.selected.innerHTML = `<div class="form-item"><label for=""></label><input name="" type="${event.target.value}"></div>`;
+      this.options2.classList.add('hidden');
     }
   },
 
@@ -374,3 +378,17 @@ let app = {
     }, 2500);
   },
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+  const storedTheme = localStorage.getItem('theme');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const themeCheckbox = document.getElementById('theme-checkbox');
+
+  if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+    document.body.classList.add('dark-theme');
+    themeCheckbox.checked = true;
+  } else {
+    document.body.classList.remove('dark-theme');
+    themeCheckbox.checked = false;
+  }
+});
