@@ -10,15 +10,26 @@
     <script src="js/script.js" defer></script>
   </head>
   <!-- By default, light theme is active. To switch to dark, add "dark-theme" to the body. -->
-  <body class="dark-theme">
+  <body>
     <header>
       <nav>
         <div class="nav-item">
-          <h2>&lt; FORM &gt; <span>BUILDER</span></h2>
+          <img class="logo" src="assets/img/logo.svg" alt="Form Builder Logo" />
+          <h2>FORM <span>BUILDER</span></h2>
         </div>
         <div class="nav-actions">
-          <div id="theme-toggle" class="nav-item">
-            <i class="fa-solid fa-sun fa-lg" onClick="app.toggleTheme()"></i>
+          <div class="nav-item">
+            <label class="switch">
+              <input
+                type="checkbox"
+                id="theme-checkbox"
+                onclick="app.toggleTheme()"
+              />
+              <span class="slider">
+                <span class="icon sun"><i class="fa-solid fa-sun"></i></span>
+                <span class="icon moon"><i class="fa-solid fa-moon"></i></span>
+              </span>
+            </label>
           </div>
           <div class="nav-item">
             <label>Method</label>
@@ -46,14 +57,22 @@
       </nav>
       <div id="options" class="hidden"></div>
       <div id="options2" class="hidden">
-        <h3>Options:</h3>
+        <div class="options-header">
+          <h3>Options:</h3>
+        </div>
         <label for="prompt">Prompt</label>
-        <input type="text" id="prompt" placeholder="Enter prompt" onkeyup="app.formOptionAddPrompt(event)" />
+        <input
+          type="text"
+          id="prompt"
+          placeholder="Enter prompt"
+          onkeyup="app.formOptionAddPrompt(event)"
+        />
         <button class="option-move-up" onclick="app.formOptionMoveUp()">
           <i class="fa-solid fa-arrow-up fa-icon"></i>
         </button>
         <button class="option-move-down" onclick="app.formOptionMoveDown()">
           <i class="fa-solid fa-arrow-down fa-icon"></i>
+        </button>
         <button
           class="remove-option-btn"
           aria-label="remove option"

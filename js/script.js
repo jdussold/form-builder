@@ -24,8 +24,9 @@ let app = {
     let name = inputEl ? inputEl.name : '';
     // prettier-ignore
     return `
-        <h3>Inputs:</h3>
-
+        <div class="options-header">
+          <h3>Inputs:</h3>
+        </div>
         <label for="type">Type</label>
         <select id="type" onchange="app.formInputTypeUpdate(event)">
             <!-- Common Text Inputs -->
@@ -132,6 +133,14 @@ let app = {
       this.options2.classList.remove('hidden');
       this.options.innerHTML = this.getInputOptionsHTML();
 
+      // Disable the "Type" dropdown if a .option is selected
+      let typeDropdown = document.getElementById('type');
+      if (this.selected.classList.contains('option')) {
+        typeDropdown.disabled = true;
+      } else {
+        typeDropdown.disabled = false;
+      }
+
       // Disable the "Add Option" button if a .option is selected
       let addOptionBtn = this.options2.querySelector('.add-option-btn');
       if (event.target.classList.contains('option')) {
@@ -142,8 +151,6 @@ let app = {
 
       if (this.selected.classList.contains('option')) {
         document.getElementById('prompt').disabled = true;
-        document.getElementById('prompt').value = '';
-        document.getElementById('prompt').placeholder = 'Not editable';
       } else {
         document.getElementById('prompt').disabled = false;
         document.getElementById('prompt').value =
@@ -154,17 +161,12 @@ let app = {
   },
 
   toggleTheme: function () {
-    let themeIcon = document.querySelector('#theme-toggle i');
+    let checkbox = document.getElementById('theme-checkbox');
     let body = document.body;
-
-    if (body.classList.contains('dark-theme')) {
-      body.classList.remove('dark-theme');
-      themeIcon.classList.remove('fa-sun');
-      themeIcon.classList.add('fa-moon');
-    } else {
+    if (checkbox.checked) {
       body.classList.add('dark-theme');
-      themeIcon.classList.remove('fa-moon');
-      themeIcon.classList.add('fa-sun');
+    } else {
+      body.classList.remove('dark-theme');
     }
   },
 
@@ -244,8 +246,7 @@ let app = {
       addOptionBtn.disabled = false;
       document.getElementById('prompt').value = 'Prompt/Question';
     } else {
-      let inputEl = this.selected.querySelector('input');
-      inputEl.type = event.target.value;
+      this.selected.innerHTML = `<div class="form-item"><label for=""></label><input name="" type="${event.target.value}"></div>`;
     }
   },
 

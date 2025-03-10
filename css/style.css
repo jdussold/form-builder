@@ -121,6 +121,16 @@ header nav {
   gap: 1rem;
 }
 
+header nav .nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+header nav .logo {
+  height: 32px;
+}
+
 header nav span {
   font-weight: 400;
 }
@@ -129,6 +139,83 @@ header .nav-actions {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+/* Container */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Slider styling */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--bg-page);
+  transition: 0.4s;
+  border-radius: 34px;
+  border: 1px solid var(--bg-container-hover);
+}
+
+/* Slider circle */
+.slider:before {
+  position: absolute;
+  content: '';
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+/* Change background and move circle when checked */
+.switch input:checked + .slider {
+  background-color: var(--bg-page);
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* Icon styling inside the slider */
+.icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 16px;
+  color: #fff;
+}
+
+.icon.sun {
+  left: 8px;
+}
+
+.icon.moon {
+  right: 8px;
+}
+
+/* Adjust icon opacity based on mode */
+.switch input:not(:checked) + .slider .moon {
+  opacity: 0.5;
+}
+
+.switch input:checked + .slider .sun {
+  opacity: 0.5;
 }
 
 .fa-sun {
@@ -156,7 +243,7 @@ header .nav-actions input[type='text'] {
   border: 1px solid var(--border);
   border-radius: 4px;
   background-color: var(--bg-page);
-  color: var(--text-placeholder);
+  color: var(--text);
 }
 
 header .nav-actions button {
@@ -172,12 +259,16 @@ header .nav-actions button:hover {
   background-color: #99f666;
 }
 
+header .options-header {
+  width: 100px;
+}
+
 header #options,
 header #options2 {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 2rem;
   border-top: 1px solid rgba(0, 0, 0, 0.3);
   background-color: var(--bg-container);
   padding: 10px 20px;
@@ -190,6 +281,15 @@ header #options2 {
   opacity: 1;
   transition: transform 0.3s ease-out, opacity 0.3s ease-out,
     padding 0.3s ease-out;
+}
+
+header label,
+header button {
+  margin-right: -1.5rem;
+}
+
+header #options2 .add-option-btn {
+  margin-left: 1.5rem;
 }
 
 header #options.hidden,
@@ -217,7 +317,7 @@ header #options2 input[type='text'] {
   border: 1px solid var(--border);
   border-radius: 4px;
   background-color: var(--bg-page);
-  color: var(--text-placeholder);
+  color: var(--text);
 }
 
 header #options select,
@@ -375,7 +475,8 @@ main {
 
 #form .form-row .form-item .option-prompt,
 #form .form-row .form-item.option input,
-#form .form-row .form-item.option label {
+#form .form-row .form-item.option label,
+#form .form-row .form-item input {
   pointer-events: none;
   user-select: none;
 }
