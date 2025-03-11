@@ -39,6 +39,30 @@ let app = {
         label,
         required,
       });
+    } else if (
+      [
+        'number',
+        'range',
+        'date',
+        'datetime-local',
+        'month',
+        'time',
+        'week',
+      ].includes(type)
+    ) {
+      let min = inputEl ? inputEl.min : '';
+      let max = inputEl ? inputEl.max : '';
+      let step = inputEl ? inputEl.step : '';
+
+      return components.numericInputOptions({
+        type,
+        name,
+        label,
+        min,
+        max,
+        step,
+        required,
+      });
     }
 
     // TODO: Add more input types here
@@ -102,11 +126,15 @@ let app = {
     ) {
       this.options2.classList.remove('hidden');
       this.options.innerHTML = this.getInputOptionsHTML();
+      this.options2.querySelector('#radioName').disabled = true;
+      this.options2.querySelector('#radioLabel').disabled = true;
 
       // Disable the "Type" dropdown if a .option is selected
       let typeDropdown = document.getElementById('type');
       if (this.selected.classList.contains('option')) {
         typeDropdown.disabled = true;
+        this.options2.querySelector('#radioName').disabled = false;
+        this.options2.querySelector('#radioLabel').disabled = false;
       } else {
         typeDropdown.disabled = false;
       }
@@ -186,12 +214,59 @@ let app = {
 
   formInputGroupAddInput: function () {
     this.selected.innerHTML += components.textInput({ required: false });
-    const items = this.selected.querySelectorAll('.form-item');
-    items[items.length - 1].click();
+    // const items = this.selected.querySelectorAll('.form-item');
+    // items[items.length - 1].click();
+  },
+
+  formInputTypeUpdate: function (event) {
+    let newType = event.target.value;
+    if (newType === 'radio' || newType === 'checkbox') {
+      this.selected.innerHTML = components.radioCheckboxInput({
+        inputType: newType,
+        optionValue: 'Option 1',
+        optionId: 'option1',
+      });
+
+      this.options2.innerHTML = components.radioCheckboxOptionsPanel({
+        name: this.selected.querySelector('input').name || '',
+        label: this.selected.querySelector('label').innerText || '',
+      });
+      this.options2.classList.remove('hidden');
+
+      let addOptionBtn = this.options2.querySelector('.add-option-btn');
+      if (addOptionBtn) {
+        addOptionBtn.disabled = false;
+      }
+      this.options2.querySelector('#prompt').value = `Prompt/Question`;
+      this.selected.click();
+    } else if (
+      [
+        'number',
+        'range',
+        'date',
+        'datetime-local',
+        'month',
+        'time',
+        'week',
+      ].includes(newType)
+    ) {
+      this.selected.innerHTML = components.numericInput({ required: false });
+      this.options2.classList.add('hidden');
+    } else {
+      this.selected.innerHTML = components.textInput({ required: false });
+      this.options2.classList.add('hidden');
+    }
   },
 
   formInputNameUpdate: function (event) {
-    this.selected.querySelector('input').name = event.target.value;
+    this.selected.querySelector('input').name = event.target.value
+      .trim()
+      .toLowerCase()
+      .split(/\s+/)
+      .map((word, index) =>
+        index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1)
+      )
+      .join('');
   },
 
   // Update the label text and the "for" and "id" attributes
@@ -206,6 +281,14 @@ let app = {
     inputEl.setAttribute('id', forAttribute);
   },
 
+  formInputMinUpdate: function (event) {
+    this.selected.querySelector('input').min = event.target.value;
+  },
+
+  formInputMaxUpdate: function (event) {
+    this.selected.querySelector('input').max = event.target.value;
+  },
+
   formInputPlaceholderUpdate: function (event) {
     this.selected.querySelector('input').placeholder = event.target.value;
   },
@@ -214,27 +297,8 @@ let app = {
     this.selected.querySelector('input').required = event.target.checked;
   },
 
-  formInputTypeUpdate: function (event) {
-    let newType = event.target.value;
-    if (newType === 'radio' || newType === 'checkbox') {
-      this.selected.innerHTML = components.radioCheckboxInput({
-        inputType: newType,
-        optionValue: 'Option 1',
-        optionId: 'option1',
-      });
-
-      this.options2.innerHTML = components.radioCheckboxOptionsPanel();
-      this.options2.classList.remove('hidden');
-
-      let addOptionBtn = this.options2.querySelector('.add-option-btn');
-      if (addOptionBtn) {
-        addOptionBtn.disabled = false;
-      }
-      this.document.getElementById('prompt').value = 'Prompt/Question';
-    } else {
-      this.selected.innerHTML = components.textInput({ required: false });
-      this.options2.classList.add('hidden');
-    }
+  formInputStepUpdate: function (event) {
+    this.selected.querySelector('input').step = event.target.value;
   },
 
   formInputUp: function () {

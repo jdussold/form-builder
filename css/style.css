@@ -305,6 +305,15 @@ header #options2 input[type='text'] {
   border-radius: 4px;
 }
 
+header #options input[type='number'] {
+  width: 80px;
+  padding: 5px 10px;
+  color: var(--text);
+  background-color: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
 header #options select:disabled,
 header #options2 select:disabled,
 header #options input[type='text']:disabled,
@@ -354,11 +363,13 @@ header #options2 button:disabled {
 }
 
 header #options .delete-btn,
+header #options .remove-btn,
 header #options2 .remove-option-btn {
   background-color: var(--status-warning);
 }
 
 header #options .delete-btn:hover,
+header #options .remove-btn:hover,
 header #options2 .remove-option-btn:hover {
   background-color: var(--status-warning-hover);
 }

@@ -1,3 +1,5 @@
+// Input types: email, password, search, tel, text, url
+
 // prettier-ignore
 components.textInputOptions = function ({
   name = '',
@@ -20,6 +22,8 @@ components.textInputOptions = function ({
 
     <label for="required">Required</label>
     <input type="checkbox" id="required" ${ required ? 'checked' : '' } onchange="app.formInputRequiredUpdate(event)">
+
+    ${components.actionButtons()}
   `;
 };
 

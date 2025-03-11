@@ -1,18 +1,12 @@
+// Input types: checkbox, radio
+
 // prettier-ignore
 components.radioCheckboxInputOptions = function ({
-  name = '',
-  label = '',
   required = false,
   type = 'radio',
 } = {}) {
   return `
     ${components.typeDropdown(type)}
-    
-    <label for="radioName">Name</label>
-    <input type="text" placeholder="Name" id="radioName" value="${name}" onkeyup="app.formInputNameUpdate(event)">
-    
-    <label for="radioLabel">Label</label>
-    <input type="text" id="radioLabel" placeholder="Label" value="${label}" onkeyup="app.formInputLabelUpdate(event)">
     
     <label for="radioRequired">Required</label>
     <input type="checkbox" id="radioRequired" ${ required ? 'checked' : '' } onchange="app.formInputRequiredUpdate(event)">
@@ -34,13 +28,23 @@ components.radioCheckboxInput = function ({
 };
 
 // prettier-ignore
-components.radioCheckboxOptionsPanel = function () {
+components.radioCheckboxOptionsPanel = function ({ 
+  name = '',
+  label = '',
+} = {}) {
   return `
     <div class="options-header">
       <h3>Options:</h3>
     </div>
     <label for="prompt">Prompt</label>
     <input type="text" id="prompt" placeholder="Enter prompt" onkeyup="app.formOptionAddPrompt(event)">
+    
+    <label for="radioName">Name</label>
+    <input type="text" placeholder="Name" id="radioName" value="${name}" onkeyup="app.formInputNameUpdate(event)">
+    
+    <label for="radioLabel">Label</label>
+    <input type="text" id="radioLabel" placeholder="Label" value="${label}" onkeyup="app.formInputLabelUpdate(event)">
+
     <button class="option-move-up" aria-label="move-up" onclick="app.formOptionMoveUp()">
       <i class="fa-solid fa-arrow-up fa-icon"></i>
     </button>
