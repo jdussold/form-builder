@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="assets/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="css/style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-html.min.js"></script>
+    <script src="js/components/components.js"></script>
+    <script src="js/components/type-dropdown.js"></script>
+    <script src="js/components/text-input.js"></script>
+    <script src="js/components/checkbox-radio-input.js"></script>
     <script src="js/script.js" defer></script>
   </head>
   <!-- By default, light theme is active. To switch to dark, add "dark-theme" to the body. -->
@@ -14,7 +18,7 @@
     <header>
       <nav>
         <div class="nav-item">
-          <img class="logo" src="assets/img/logo.svg" alt="Form Builder Logo" />
+          <img class="logo" src="assets/img/logo.png" alt="Form Builder Logo" />
           <h2>FORM <span>BUILDER</span></h2>
         </div>
         <div class="nav-actions">
@@ -24,6 +28,7 @@
                 type="checkbox"
                 id="theme-checkbox"
                 onclick="app.toggleTheme()"
+                aria-label="Toggle Theme"
               />
               <span class="slider">
                 <span class="icon sun"><i class="fa-solid fa-sun"></i></span>
@@ -32,7 +37,7 @@
             </label>
           </div>
           <div class="nav-item">
-            <label>Method</label>
+            <label for="method">Method</label>
             <select id="method" onchange="app.formMethodUpdate()">
               <option value="GET">GET</option>
               <option value="POST">POST</option>
@@ -56,34 +61,7 @@
         </div>
       </nav>
       <div id="options" class="hidden"></div>
-      <div id="options2" class="hidden">
-        <div class="options-header">
-          <h3>Options:</h3>
-        </div>
-        <label for="prompt">Prompt</label>
-        <input
-          type="text"
-          id="prompt"
-          placeholder="Enter prompt"
-          onkeyup="app.formOptionAddPrompt(event)"
-        />
-        <button class="option-move-up" onclick="app.formOptionMoveUp()">
-          <i class="fa-solid fa-arrow-up fa-icon"></i>
-        </button>
-        <button class="option-move-down" onclick="app.formOptionMoveDown()">
-          <i class="fa-solid fa-arrow-down fa-icon"></i>
-        </button>
-        <button
-          class="remove-option-btn"
-          aria-label="remove option"
-          onclick="app.formInputRemoveOption()"
-        >
-          <i class="fa-solid fa-trash-can fa-icon"></i>
-        </button>
-        <button class="add-option-btn" onclick="app.formInputAddOption()">
-          Add Option
-        </button>
-      </div>
+      <div id="options2" class="hidden"></div>
     </header>
     <main>
       <div class="center-text">Borders will not appear on final product.</div>

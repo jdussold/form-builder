@@ -22,65 +22,34 @@ let app = {
     let type = inputEl ? inputEl.type : 'text';
     let placeholder = inputEl ? inputEl.placeholder : '';
     let name = inputEl ? inputEl.name : '';
-    // prettier-ignore
-    return `
-        <div class="options-header">
-          <h3>Inputs:</h3>
-        </div>
-        <label for="type">Type</label>
-        <select id="type" onchange="app.formInputTypeUpdate(event)">
-            <!-- Common Text Inputs -->
-            <option value="text" ${type === 'text' ? 'selected' : ''}>Text</option>
-            <option value="email" ${type === 'email' ? 'selected' : ''}>Email</option>
-            <option value="password" ${type === 'password' ? 'selected' : ''}>Password</option>
-            <option value="number" ${type === 'number' ? 'selected' : ''}>Number</option>
+    let required = inputEl ? inputEl.required : false;
 
-            <!-- Selection Controls -->
-            <option value="checkbox" ${type === 'checkbox' ? 'selected' : ''}>Checkbox</option>
-            <option value="radio" ${type === 'radio' ? 'selected' : ''}>Radio</option>
-            <option value="select" ${type === 'select' ? 'selected' : ''}>Select Dropdown</option>
-            <option value="textarea" ${type === 'textarea' ? 'selected' : ''}>Textarea</option>
+    if (type === 'text') {
+      return components.textInputOptions({
+        type,
+        name,
+        label,
+        placeholder,
+        required,
+      });
+    } else if (type === 'radio' || type === 'checkbox') {
+      return components.radioCheckboxInputOptions({
+        type,
+        name,
+        label,
+        required,
+      });
+    }
 
-            <!-- Date & Time Inputs -->
-            <option value="date" ${type === 'date' ? 'selected' : ''}>Date</option>
-            <option value="time" ${type === 'time' ? 'selected' : ''}>Time</option>
-            <option value="datetime-local" ${type === 'datetime-local' ? 'selected' : ''}>Datetime-local</option>
-            <option value="month" ${type === 'month' ? 'selected' : ''}>Month</option>
-            <option value="week" ${type === 'week' ? 'selected' : ''}>Week</option>
-
-            <!-- File & URL Inputs -->
-            <option value="file" ${type === 'file' ? 'selected' : ''}>File Upload</option>
-            <option value="url" ${type === 'url' ? 'selected' : ''}>URL</option>
-            <option value="tel" ${type === 'tel' ? 'selected' : ''}>Phone Number</option>
-
-            <!-- Special Inputs -->
-            <option value="search" ${type === 'search' ? 'selected' : ''}>Search</option>
-            <option value="color" ${type === 'color' ? 'selected' : ''}>Color Picker</option>
-            <option value="range" ${type === 'range' ? 'selected' : ''}>Range Slider</option>
-
-            <!-- Buttons & Actions -->
-            <option value="submit" ${type === 'submit' ? 'selected' : ''}>Submit Button</option>
-            <option value="reset" ${type === 'reset' ? 'selected' : ''}>Reset Button</option>
-            <option value="button" ${type === 'button' ? 'selected' : ''}>Button</option>
-            <option value="image" ${type === 'image' ? 'selected' : ''}>Image Button</option>
-
-            <!-- Hidden Fields -->
-            <option value="hidden" ${type === 'hidden' ? 'selected' : ''}>Hidden Field</option>
-        </select>
-
-        <label for="name">Name</label>
-        <input type="text" placeholder="Name" id="name" value="${name}" onkeyup="app.formInputNameUpdate(event)">
-        
-        <label for="label">Label</label>
-        <input type="text" placeholder="Label" id="label" value="${label}" onkeyup="app.formInputLabelUpdate(event)">
-
-        <label for="placeholder">Placeholder</label>
-        <input type="text" placeholder="Placeholder" id="placeholder" value="${placeholder}" onkeyup="app.formInputPlaceholderUpdate(event)">
-
-        <button onclick="app.formInputUp()"><i class="fa-solid fa-arrow-up fa-icon"></i></button>
-        <button onclick="app.formInputDown()"><i class="fa-solid fa-arrow-down fa-icon"></i></button>
-        <button class="delete-btn" onclick="app.formInputDelete()"><i class="fa-solid fa-trash-can fa-icon"></i></button>
-      `;
+    // TODO: Add more input types here
+    // Fallback to text input
+    return components.textInputOptions({
+      type,
+      name,
+      label,
+      placeholder,
+      required,
+    });
   },
 
   select: function (event) {
@@ -216,40 +185,54 @@ let app = {
   },
 
   formInputGroupAddInput: function () {
-    this.selected.innerHTML += `
-      <div class="form-item"><label for=""></label><input name="" type="text"></div>
-    `;
+    this.selected.innerHTML += components.textInput({ required: false });
+    const items = this.selected.querySelectorAll('.form-item');
+    items[items.length - 1].click();
   },
 
   formInputNameUpdate: function (event) {
     this.selected.querySelector('input').name = event.target.value;
   },
 
+  // Update the label text and the "for" and "id" attributes
   formInputLabelUpdate: function (event) {
-    this.selected.querySelector('label').innerText = event.target.value;
+    let labelEl = this.selected.querySelector('label');
+    let inputValue = event.target.value.trim();
+    labelEl.innerText = inputValue;
+    let forAttribute = inputValue.toLowerCase().replace(/\s/g, '-');
+    labelEl.setAttribute('for', forAttribute);
+
+    let inputEl = this.selected.querySelector('input');
+    inputEl.setAttribute('id', forAttribute);
   },
 
   formInputPlaceholderUpdate: function (event) {
     this.selected.querySelector('input').placeholder = event.target.value;
   },
 
-  formInputTypeUpdate: function (event) {
-    if (event.target.value === 'radio' || event.target.value === 'checkbox') {
-      let inputType = event.target.value;
+  formInputRequiredUpdate: function (event) {
+    this.selected.querySelector('input').required = event.target.checked;
+  },
 
-      this.selected.innerHTML = `
-          <p class="option-prompt">Prompt/Question</p>
-          <div class="form-item option">
-            <input name="" type="${inputType}" value="Option 1" id="option1">
-            <label for="option1">Option 1</label>
-          </div>
-        `;
+  formInputTypeUpdate: function (event) {
+    let newType = event.target.value;
+    if (newType === 'radio' || newType === 'checkbox') {
+      this.selected.innerHTML = components.radioCheckboxInput({
+        inputType: newType,
+        optionValue: 'Option 1',
+        optionId: 'option1',
+      });
+
+      this.options2.innerHTML = components.radioCheckboxOptionsPanel();
       this.options2.classList.remove('hidden');
+
       let addOptionBtn = this.options2.querySelector('.add-option-btn');
-      addOptionBtn.disabled = false;
-      document.getElementById('prompt').value = 'Prompt/Question';
+      if (addOptionBtn) {
+        addOptionBtn.disabled = false;
+      }
+      this.document.getElementById('prompt').value = 'Prompt/Question';
     } else {
-      this.selected.innerHTML = `<div class="form-item"><label for=""></label><input name="" type="${event.target.value}"></div>`;
+      this.selected.innerHTML = components.textInput({ required: false });
       this.options2.classList.add('hidden');
     }
   },

@@ -1,6 +1,6 @@
 /* Design elements (colors, fonts, buttons) inspired by Astro (@astrouxds)
-   Source: https://www.figma.com/community/file/1157371532469023309
-   Licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
+Source: https://www.figma.com/community/file/1157371532469023309
+Licensed under CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/)
 */
 
 /* Light Theme (Default) */
@@ -12,12 +12,10 @@
   --bg-container-hover: #daeeff;
   --bg-container-selected: #cee9fc;
   --bg-container-header: #f5f6f9;
-
   /* Button Colors */
   --btn: #005a8f;
   --btn-hover: #004872;
   --btn-muted: #2f7aa7;
-
   /* Status Colors */
   --status-success: #00e200;
   --status-warning: #ffaf3d;
@@ -26,30 +24,26 @@
   --status-error: #ff2a04;
   --status-error-hover: #c8102e;
   --status-info: #64d9ff;
-
   /* Border Colors */
   --border: var(--btn);
   --border-hover: var(--btn-hover);
   --border-muted: var(--btn-muted);
   --border-error: var(--status-error);
-
   /* Text Colors */
   --text: #292a2d;
   --text-secondary: #51555b;
   --text-placeholder: #7b8089;
   --text-interactive: var(--btn);
   --text-interactive-hover: var(--btn-hover);
+  --text-muted: var(--btn-muted);
   --text-error: var(--status-error);
-
   /* Link Colors */
   --link: var(--btn);
   --link-hover: var(--btn-hover);
   --link-visited: var(--btn-muted);
-
   /* Fonts */
   --font-base: 'Roboto', sans-serif;
   --font-monospace: 'Roboto Mono', monospace;
-
   /* Transitions */
   --transition-fast: 0.3s ease-in-out;
   --transition-slow: 0.5s ease-in-out;
@@ -63,11 +57,9 @@
   --bg-container-hover: #1c3851;
   --bg-container-selected: #1c3f5e;
   --bg-container-header: var(--bg-header);
-
   --btn: #4dacff;
   --btn-hover: #92cbff;
   --btn-muted: #2b659b;
-
   --status-success: #56f000;
   --status-warning: #ffb302;
   --status-warning-hover: #ffcc57;
@@ -75,19 +67,16 @@
   --status-error: #ff3b38;
   --status-error-hover: #ff5f60;
   --status-info: #00c7cb;
-
   --border: var(--btn);
   --border-hover: var(--btn-hover);
   --border-muted: var(--btn-muted);
   --border-error: var(--status-error);
-
   --text: #ffffff;
   --text-secondary: #d4dbdd;
   --text-placeholder: #a4abb6;
   --text-interactive: var(--btn);
   --text-interactive-hover: var(--btn-hover);
   --text-error: var(--status-error);
-
   --link: var(--btn);
   --link-hover: var(--btn-hover);
   --link-visited: var(--btn-muted);
@@ -102,11 +91,11 @@
 
 body {
   font-family: var(--font-base);
-  font-size: 16px;
+  min-height: 100vh;
+  font-size: 14px;
   line-height: 1.5;
   color: var(--text);
   background-color: var(--bg-page);
-  min-height: 100vh;
 }
 
 header {
@@ -114,11 +103,11 @@ header {
 }
 
 header nav {
-  padding: 10px 20px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   gap: 1rem;
+  padding: 10px 20px;
 }
 
 header nav .nav-item {
@@ -141,7 +130,7 @@ header .nav-actions {
   gap: 1rem;
 }
 
-/* Container */
+/* Dark Mode Toggle Style */
 .switch {
   position: relative;
   display: inline-block;
@@ -149,41 +138,37 @@ header .nav-actions {
   height: 34px;
 }
 
-/* Hide default checkbox */
 .switch input {
-  opacity: 0;
   width: 0;
   height: 0;
+  opacity: 0;
 }
 
-/* Slider styling */
 .slider {
-  position: absolute;
   cursor: pointer;
+  position: absolute;
   top: 0;
   left: 0;
-  right: 0;
   bottom: 0;
+  right: 0;
   background-color: var(--bg-page);
-  transition: 0.4s;
-  border-radius: 34px;
   border: 1px solid var(--bg-container-hover);
+  border-radius: 34px;
+  transition: 0.4s;
 }
 
-/* Slider circle */
 .slider:before {
-  position: absolute;
   content: '';
-  height: 26px;
-  width: 26px;
+  position: absolute;
   left: 4px;
   bottom: 4px;
+  width: 26px;
+  height: 26px;
   background-color: white;
-  transition: 0.4s;
   border-radius: 50%;
+  transition: 0.4s;
 }
 
-/* Change background and move circle when checked */
 .switch input:checked + .slider {
   background-color: var(--bg-page);
 }
@@ -192,13 +177,12 @@ header .nav-actions {
   transform: translateX(26px);
 }
 
-/* Icon styling inside the slider */
 .icon {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
   font-size: 16px;
   color: #fff;
+  transform: translateY(-50%);
 }
 
 .icon.sun {
@@ -209,7 +193,6 @@ header .nav-actions {
   right: 8px;
 }
 
-/* Adjust icon opacity based on mode */
 .switch input:not(:checked) + .slider .moon {
   opacity: 0.5;
 }
@@ -226,33 +209,34 @@ header .nav-actions {
   color: var(--status-info);
 }
 
+/* Header Navbar actions styles */
 header .nav-actions label {
   margin-right: 10px;
 }
 
 header .nav-actions select {
   padding: 5px;
+  color: var(--text-interactive);
+  background-color: var(--bg-page);
   border: 1px solid var(--border);
   border-radius: 3px;
-  background-color: var(--bg-page);
-  color: var(--text-interactive);
 }
 
 header .nav-actions input[type='text'] {
   padding: 5px 10px;
+  color: var(--text);
+  background-color: var(--bg-page);
   border: 1px solid var(--border);
   border-radius: 4px;
-  background-color: var(--bg-page);
-  color: var(--text);
 }
 
 header .nav-actions button {
+  cursor: pointer;
   padding: 5px 10px;
+  color: #101923;
+  background-color: var(--status-success);
   border: none;
   border-radius: 4px;
-  background-color: var(--status-success);
-  color: #101923;
-  cursor: pointer;
 }
 
 header .nav-actions button:hover {
@@ -260,46 +244,46 @@ header .nav-actions button:hover {
 }
 
 header .options-header {
-  width: 100px;
+  width: 80px;
 }
 
+/* Form Options and sub-options styles */
 header #options,
 header #options2 {
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
-  gap: 2rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.3);
-  background-color: var(--bg-container);
-  padding: 10px 20px;
-
-  /* For sliding & fading effect */
-  overflow: hidden;
+  align-items: center;
+  gap: 1.5rem;
   height: auto;
+  padding: 10px 20px;
+  opacity: 1;
+  background-color: var(--bg-container);
+  border-top: 1px solid rgba(0, 0, 0, 0.3);
   transform: scaleY(1);
   transform-origin: top;
-  opacity: 1;
   transition: transform 0.3s ease-out, opacity 0.3s ease-out,
     padding 0.3s ease-out;
+  /* For sliding & fading effect */
+  overflow: hidden;
 }
 
 header label,
 header #options button,
 header #options2 button {
-  margin-right: -1.5rem;
+  margin-right: -1rem;
 }
 
 header #options2 .add-option-btn {
-  margin-left: 1.5rem;
+  margin-left: 1rem;
 }
 
 header #options.hidden,
 header #options2.hidden {
-  transform: scaleY(0);
-  opacity: 0;
+  height: 0;
   padding-top: 0;
   padding-bottom: 0;
-  height: 0;
+  opacity: 0;
+  transform: scaleY(0);
 }
 
 header #options2 {
@@ -308,45 +292,53 @@ header #options2 {
 
 header #options h3,
 header #options2 h3 {
-  font-weight: 400;
   margin-right: 24px;
+  font-weight: 400;
 }
 
 header #options input[type='text'],
 header #options2 input[type='text'] {
   padding: 5px 10px;
+  color: var(--text);
+  background-color: var(--bg-page);
   border: 1px solid var(--border);
   border-radius: 4px;
-  background-color: var(--bg-page);
-  color: var(--text);
 }
 
 header #options select:disabled,
 header #options2 select:disabled,
 header #options input[type='text']:disabled,
 header #options2 input[type='text']:disabled {
-  border-color: var(--border-muted);
   cursor: not-allowed;
   color: var(--text-placeholder);
+  border-color: var(--border-muted);
 }
 
 header #options select,
 header #options2 select {
   padding: 5px;
+  color: var(--text-interactive);
+  background-color: var(--bg-page);
   border: 1px solid var(--border);
   border-radius: 4px;
-  background-color: var(--bg-page);
+}
+
+optgroup {
+  color: var(--text-interactive-hover);
+}
+
+option {
   color: var(--text-interactive);
 }
 
 header #options button,
 header #options2 button {
+  cursor: pointer;
   padding: 5px 10px;
+  color: var(--bg-container-header);
+  background-color: var(--btn);
   border: none;
   border-radius: 4px;
-  background-color: var(--btn);
-  color: var(--bg-container-header);
-  cursor: pointer;
 }
 
 header #options button:hover,
@@ -356,9 +348,9 @@ header #options2 button:hover {
 
 header #options button:disabled,
 header #options2 button:disabled {
-  background-color: var(--btn);
   cursor: not-allowed;
   opacity: 0.4;
+  background-color: var(--btn);
 }
 
 header #options .delete-btn,
@@ -373,8 +365,8 @@ header #options2 .remove-option-btn:hover {
 
 header #options input[type='text']:disabled,
 header #options2 input[type='text']:disabled {
-  border-color: var(--border-muted);
   cursor: not-allowed;
+  border-color: var(--border-muted);
 }
 
 .fa-icon {
@@ -382,74 +374,47 @@ header #options2 input[type='text']:disabled {
 }
 
 main {
-  padding: 1rem;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 .center-text {
-  text-align: center;
   margin-bottom: 1rem;
+  text-align: center;
   color: var(--text-interactive);
 }
 
+/* Form Styles */
 #form {
   display: flex;
   flex-direction: column;
-  column-gap: 1rem;
-  row-gap: 1rem;
   width: 100%;
   max-width: 1320px;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  background-color: var(--bg-container);
   min-height: 32px;
-  padding: 1rem;
-  box-sizing: border-box;
   margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: var(--bg-container);
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  column-gap: 1rem;
+  row-gap: 1rem;
+  box-sizing: border-box;
 }
 
 #form.selected {
+  background-color: var(--bg-container-selected);
   border: 2px solid var(--border);
   border-radius: 3px;
   border-color: var(--border);
-  background-color: var(--bg-container-selected);
 }
 #form .start-text {
+  margin: 0;
   text-align: center;
   color: var(--text);
-  margin: 0;
 }
-
-/* Shimmer effect for start text - Not yet optimized */
-/* #form .start-text {
-  text-align: center;
-  display: inline-block;
-  color: rgba(255, 255, 255, 0.1);
-  background: linear-gradient(
-    90deg,
-    var(--text) 0%,
-    rgba(255, 255, 255, 0.5) 50%,
-    var(--text) 100%
-  );
-  background-size: 250px 100%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 10s infinite linear;
-}  */
-
-/* Keyframes for shimmer effect */
-/* @keyframes shimmer {
-  0% {
-    background-position: top left;
-  }
-  100% {
-    background-position: top right;
-  }
-} */
 
 #form .start-text:hover {
   cursor: pointer;
@@ -460,35 +425,36 @@ main {
 }
 
 #form .form-row {
-  border: 2px dashed var(--border);
   min-height: 32px;
   padding: 1rem;
-  box-sizing: border-box;
   background: var(--bg-container);
+  border: 2px dashed var(--border);
+  box-sizing: border-box;
 }
 #form .form-row.selected {
-  border-color: var(--status-warning);
   background: var(--bg-container-selected);
+  border-color: var(--status-warning);
 }
 #form .form-row .form-item {
-  border: 2px dotted var(--border);
   min-height: 32px;
-  padding: 1rem;
-  box-sizing: border-box;
-  background: var(--bg-container);
   margin: 0.5rem 0;
+  padding: 1rem;
+  background: var(--bg-container);
+  border: 2px dotted var(--border);
+  box-sizing: border-box;
 }
 #form .form-row .form-item.selected {
-  border-color: var(--status-warning);
   background: var(--bg-container-selected);
+  border-color: var(--status-warning);
 }
 
 #form .form-row .form-item .option-prompt,
 #form .form-row .form-item.option input,
 #form .form-row .form-item.option label,
+#form .form-row .form-item label,
 #form .form-row .form-item input {
-  pointer-events: none;
   user-select: none;
+  pointer-events: none;
 }
 
 .form-col-1,
@@ -522,31 +488,31 @@ main {
 }
 
 .code-container {
+  visibility: visible;
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
   max-width: 1320px;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  background-color: var(--bg-container);
   margin-bottom: 1rem;
   opacity: 1;
-  visibility: visible;
+  background-color: var(--bg-container);
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   transition: opacity 0.5s ease;
 }
 
 .code-container.hidden {
-  opacity: 0;
   visibility: hidden;
+  opacity: 0;
 }
 
 .code-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
-  background-color: var(--bg-container-header);
   padding: 1rem;
+  background-color: var(--bg-container-header);
 }
 
 .code-header h3 {
@@ -554,8 +520,8 @@ main {
 }
 
 .fa-copy {
-  color: var(--text-interactive);
   cursor: pointer;
+  color: var(--text-interactive);
 }
 
 .copy-btn {
@@ -564,22 +530,24 @@ main {
 }
 
 #code {
+  font-family: var(--font-monospace);
   width: 100%;
   max-width: 1320px;
   height: 300px;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
-  background-color: var(--bg-container);
   padding: 1rem;
-  font-family: var(--font-monospace); /* Use a monospaced font for code */
-  resize: vertical; /* Allow vertical resizing if needed */
-  color: var(--text);
+  background-color: var(--bg-container);
   border: none;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  /* Use a monospaced font for code */
+  resize: vertical;
+  /* Allow vertical resizing if needed */
+  color: var(--text);
 }
 
 #code.selected,
 #code:focus {
-  border: 1px solid var(--border);
   background-color: var(--bg-container-selected);
+  border: 1px solid var(--border);
   outline: none;
 }
 
@@ -595,15 +563,15 @@ main {
 }
 
 .toast {
-  background-color: var(--status-success);
-  color: var(--bg-page);
   padding: 10px 16px;
+  opacity: 0;
+  font-size: 14px;
+  color: var(--bg-page);
+  background-color: var(--status-success);
   border-radius: 3px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
-  opacity: 0;
   transform: translateX(100%);
   animation: slideIn 0.3s forwards, fadeOut 0.5s 2s forwards;
-  font-size: 14px;
 }
 
 @keyframes slideIn {
@@ -648,33 +616,33 @@ main {
   header nav {
     flex-direction: column;
     align-items: center;
-    text-align: center;
     gap: 0.5rem;
+    text-align: center;
   }
 
   header nav .nav-item h2 {
-    text-align: center;
     width: 100%;
+    text-align: center;
   }
 
   header .nav-actions {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     align-items: center;
-    width: 100%;
+    justify-content: center;
     gap: 0.75rem;
+    width: 100%;
     padding: 0 1rem;
   }
 
   header .nav-item {
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
     flex-wrap: nowrap;
-    white-space: nowrap;
+    align-items: center;
     justify-content: center;
+    gap: 0.5rem;
     width: auto;
+    white-space: nowrap;
   }
 
   header .nav-item label {
