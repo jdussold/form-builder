@@ -34,11 +34,9 @@ components.numericInputOptions = function ({
 };
 
 // prettier-ignore
-components.numericInput = function ({ min = '', max = '', step = '', required = false } = {}) {
+components.numericInput = function ({ type = 'number', min = '', max = '', step = '', required = false } = {}) {
   return `
-    <div class="form-item">
-      <label for=""></label>
-      <input name="" type="number" ${min ? `min="${min}"` : ''} ${max ? `max="${max}"` : ''} ${step ? `step="${step}"` : ''} ${required ? 'required' : ''}>
-    </div>
+    <label for=""></label>
+    <input name="" type="${type}" ${min ? `min="${min}"` : ''} ${max ? `max="${max}"` : ''} ${step ? `step="${step}"` :''} ${required ? 'required' : ''}>
   `;
 };

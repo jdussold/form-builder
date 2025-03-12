@@ -1,12 +1,11 @@
-// Input types: email, password, search, tel, text, url
+// Input types: file, color
 
 // prettier-ignore
-components.textInputOptions = function ({
+components.fileMediaInputOptions = function ({
   name = '',
   label = '',
-  placeholder = '',
   required = false,
-  type = 'text',
+  type = 'file',
 } = {}) {
   return `
     ${components.typeDropdown(type)}
@@ -17,20 +16,15 @@ components.textInputOptions = function ({
     <label for="label">Label</label>
     <input type="text" id="label" placeholder="Label" value="${label}" onkeyup="app.formInputLabelUpdate(event)">
     
-    <label for="placeholder">Placeholder</label>
-    <input type="text" id="placeholder" placeholder="Placeholder" value="${placeholder}" onkeyup="app.formInputPlaceholderUpdate(event)">
-
     <label for="required">Required</label>
     <input type="checkbox" id="required" ${ required ? 'checked' : '' } onchange="app.formInputRequiredUpdate(event)">
-
-    ${components.actionButtons()}
   `;
-};
+}
 
 // prettier-ignore
-components.textInput = function ({ type = 'text', placeholder = '', required = false } = {}) {
+components.fileMediaInput = function ({ type, required = false } = {}) {
   return `
     <label for=""></label>
-    <input name="" type="${type}" ${placeholder ? `placeholder="${placeholder}"` : ''} ${required ? 'required' : ''}>
+    <input name="" type="${type}" ${required ? 'required' : ''}>
   `;
 };

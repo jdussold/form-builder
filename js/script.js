@@ -39,6 +39,13 @@ let app = {
         label,
         required,
       });
+    } else if (['file', 'color'].includes(type)) {
+      return components.fileMediaInputOptions({
+        type,
+        name,
+        label,
+        required,
+      });
     } else if (
       [
         'number',
@@ -213,7 +220,12 @@ let app = {
   },
 
   formInputGroupAddInput: function () {
-    this.selected.innerHTML += components.textInput({ required: false });
+    this.selected.innerHTML = `
+      <div class="form-item">
+        <label for=""></label>
+        <input name="" type="text" placeholder="">
+      </div>
+    `;
     // const items = this.selected.querySelectorAll('.form-item');
     // items[items.length - 1].click();
   },
@@ -239,6 +251,12 @@ let app = {
       }
       this.options2.querySelector('#prompt').value = `Prompt/Question`;
       this.selected.click();
+    } else if (['file', 'color'].includes(newType)) {
+      this.selected.innerHTML = components.fileMediaInput({
+        type: newType,
+        required: false,
+      });
+      this.options2.classList.add('hidden');
     } else if (
       [
         'number',
@@ -250,10 +268,16 @@ let app = {
         'week',
       ].includes(newType)
     ) {
-      this.selected.innerHTML = components.numericInput({ required: false });
+      this.selected.innerHTML = components.numericInput({
+        type: newType,
+        required: false,
+      });
       this.options2.classList.add('hidden');
     } else {
-      this.selected.innerHTML = components.textInput({ required: false });
+      this.selected.innerHTML = components.textInput({
+        type: newType,
+        required: false,
+      });
       this.options2.classList.add('hidden');
     }
   },
