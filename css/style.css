@@ -247,9 +247,9 @@ header .options-header {
   width: 80px;
 }
 
-/* Form Options and sub-options styles */
-header #options,
-header #options2 {
+/* Form basic options and  advanced options styles */
+header #basic-options,
+header #advanced-options {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -268,17 +268,17 @@ header #options2 {
 }
 
 header label,
-header #options button,
-header #options2 button {
+header #basic-options button,
+header #advanced-options button {
   margin-right: -1rem;
 }
 
-header #options2 .add-option-btn {
+header #advanced-options .add-option-btn {
   margin-left: 1rem;
 }
 
-header #options.hidden,
-header #options2.hidden {
+header #basic-options.hidden,
+header #advanced-options.hidden {
   height: 0;
   padding-top: 0;
   padding-bottom: 0;
@@ -286,18 +286,40 @@ header #options2.hidden {
   transform: scaleY(0);
 }
 
-header #options2 {
+header #advanced-options {
   background-color: var(--bg-container-hover);
 }
 
-header #options h3,
-header #options2 h3 {
+header #basic-options h3,
+header #advanced-options h3 {
   margin-right: 24px;
   font-weight: 400;
 }
 
-header #options input[type='text'],
-header #options2 input[type='text'] {
+header #basic-options input[type='checkbox'],
+header #advanced-options input[type='checkbox'] {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  background-color: var(--bg-page);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  appearance: none;
+}
+
+header #basic-options input[type='checkbox']:checked::after,
+header #advanced-options input[type='checkbox']:checked::after {
+  content: '✔';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: 12px;
+  color: var(--btn);
+  transform: translate(-50%, -50%);
+}
+
+header #basic-options input[type='text'],
+header #advanced-options input[type='text'] {
   padding: 5px 10px;
   color: var(--text);
   background-color: var(--bg-page);
@@ -305,7 +327,8 @@ header #options2 input[type='text'] {
   border-radius: 4px;
 }
 
-header #options input[type='number'] {
+header #basic-options input[type='number'],
+header #advanced-options input[type='number'] {
   width: 80px;
   padding: 5px 10px;
   color: var(--text);
@@ -314,17 +337,17 @@ header #options input[type='number'] {
   border-radius: 4px;
 }
 
-header #options select:disabled,
-header #options2 select:disabled,
-header #options input[type='text']:disabled,
-header #options2 input[type='text']:disabled {
+header #basic-options select:disabled,
+header #advanced-options select:disabled,
+header #basic-options input[type='text']:disabled,
+header #advanced-options input[type='text']:disabled {
   cursor: not-allowed;
   color: var(--text-placeholder);
   border-color: var(--border-muted);
 }
 
-header #options select,
-header #options2 select {
+header #basic-options select,
+header #advanced-options select {
   padding: 5px;
   color: var(--text-interactive);
   background-color: var(--bg-page);
@@ -340,8 +363,8 @@ option {
   color: var(--text-interactive);
 }
 
-header #options button,
-header #options2 button {
+header #basic-options button,
+header #advanced-options button {
   cursor: pointer;
   padding: 5px 10px;
   color: var(--bg-container-header);
@@ -350,32 +373,32 @@ header #options2 button {
   border-radius: 4px;
 }
 
-header #options button:hover,
-header #options2 button:hover {
+header #basic-options button:hover,
+header #advanced-options button:hover {
   background-color: var(--btn-hover);
 }
 
-header #options button:disabled,
-header #options2 button:disabled {
+header #basic-options button:disabled,
+header #advanced-options button:disabled {
   cursor: not-allowed;
   opacity: 0.4;
   background-color: var(--btn);
 }
 
-header #options .delete-btn,
-header #options .remove-btn,
-header #options2 .remove-option-btn {
+header #basic-options .delete-btn,
+header #basic-options .remove-btn,
+header #advanced-options .remove-option-btn {
   background-color: var(--status-warning);
 }
 
-header #options .delete-btn:hover,
-header #options .remove-btn:hover,
-header #options2 .remove-option-btn:hover {
+header #basic-options .delete-btn:hover,
+header #basic-options .remove-btn:hover,
+header #advanced-options .remove-option-btn:hover {
   background-color: var(--status-warning-hover);
 }
 
-header #options input[type='text']:disabled,
-header #options2 input[type='text']:disabled {
+header #basic-options input[type='text']:disabled,
+header #advanced-options input[type='text']:disabled {
   cursor: not-allowed;
   border-color: var(--border-muted);
 }

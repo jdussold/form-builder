@@ -1,8 +1,8 @@
 let app = {
   selected: null,
   form: document.querySelector('#form'),
-  options: document.querySelector('#options'),
-  options2: document.querySelector('#options2'),
+  basicOptions: document.querySelector('#basic-options'),
+  advancedOptions: document.querySelector('#advanced-options'),
   startText: document.querySelector('.start-text'),
   codeContainer: document.querySelector('.code-container'),
   code: document.querySelector('#code'),
@@ -24,7 +24,13 @@ let app = {
     let name = inputEl ? inputEl.name : '';
     let required = inputEl ? inputEl.required : false;
 
-    if (type === 'text') {
+    if (
+      type === 'text' ||
+      type === 'password' ||
+      type === 'search' ||
+      type === 'tel' ||
+      type === 'url'
+    ) {
       return components.textInputOptions({
         type,
         name,
@@ -73,6 +79,7 @@ let app = {
     }
 
     // TODO: Add more input types here
+
     // Fallback to text input
     return components.textInputOptions({
       type,
@@ -96,17 +103,17 @@ let app = {
 
     // Update options based on the target's class
     if (event.target.classList.contains('form')) {
-      this.options.classList.remove('hidden');
-      this.options2.classList.add('hidden');
-      this.options.innerHTML = this.formOptionsHTML;
+      this.basicOptions.classList.remove('hidden');
+      this.advancedOptions.classList.add('hidden');
+      this.basicOptions.innerHTML = this.formOptionsHTML;
     } else if (event.target.classList.contains('start-text')) {
-      this.options.classList.remove('hidden');
+      this.basicOptions.classList.remove('hidden');
       this.selected.innerHTML = `<div class="start-text pointer-disabled" onclick="app.select(event)">Use the buttons above to add form elements</div>`;
-      this.options.innerHTML = this.formOptionsHTML;
+      this.basicOptions.innerHTML = this.formOptionsHTML;
       this.form.click();
     } else if (event.target.classList.contains('form-row')) {
-      this.options2.classList.add('hidden');
-      this.options.innerHTML = `
+      this.advancedOptions.classList.add('hidden');
+      this.basicOptions.innerHTML = `
         <h3>Inputs:</h3>
         <button onclick="app.formInputGroupAddInput('input')">Add Input</button>
         <button onclick="app.formInputGroupMoveUp()"><i class="fa-solid fa-arrow-up fa-icon"></i></button>
@@ -118,9 +125,34 @@ let app = {
       event.target.querySelector('input').type !== 'radio' &&
       event.target.querySelector('input').type !== 'checkbox'
     ) {
-      this.options2.classList.add('hidden');
-      this.options.innerHTML = this.getInputOptionsHTML();
+      // Set basic options
+      this.basicOptions.innerHTML = this.getInputOptionsHTML();
 
+      // For text-based inputs, show the advanced options
+      let input = event.target.querySelector('input');
+      let inputType = input.type;
+      if (['text', 'password', 'search', 'tel', 'url'].includes(inputType)) {
+        // Extract current attribute values
+        let minlength = input.getAttribute('minlength') || '';
+        let maxlength = input.getAttribute('maxlength') || '';
+        let pattern = input.getAttribute('pattern') || '';
+        let readonly = input.hasAttribute('readonly');
+        let disabled = input.hasAttribute('disabled');
+
+        // Pass these values to the advanced options panel
+        this.advancedOptions.innerHTML = components.textInputsOptionsPanel({
+          minlength,
+          maxlength,
+          pattern,
+          readonly,
+          disabled,
+        });
+        this.advancedOptions.classList.remove('hidden');
+      } else {
+        this.advancedOptions.classList.add('hidden');
+      }
+
+      // If an advanced prompt element exists, update it.
       const promptInput = document.getElementById('prompt');
       const promptEl = event.target.querySelector('.option-prompt');
       if (promptInput && promptEl) {
@@ -131,23 +163,23 @@ let app = {
       (event.target.querySelector('input').type === 'radio' ||
         event.target.querySelector('input').type === 'checkbox')
     ) {
-      this.options2.classList.remove('hidden');
-      this.options.innerHTML = this.getInputOptionsHTML();
-      this.options2.querySelector('#radioName').disabled = true;
-      this.options2.querySelector('#radioLabel').disabled = true;
+      this.advancedOptions.classList.remove('hidden');
+      this.basicOptions.innerHTML = this.getInputOptionsHTML();
+      this.advancedOptions.querySelector('#radioName').disabled = true;
+      this.advancedOptions.querySelector('#radioLabel').disabled = true;
 
       // Disable the "Type" dropdown if a .option is selected
       let typeDropdown = document.getElementById('type');
       if (this.selected.classList.contains('option')) {
         typeDropdown.disabled = true;
-        this.options2.querySelector('#radioName').disabled = false;
-        this.options2.querySelector('#radioLabel').disabled = false;
+        this.advancedOptions.querySelector('#radioName').disabled = false;
+        this.advancedOptions.querySelector('#radioLabel').disabled = false;
       } else {
         typeDropdown.disabled = false;
       }
 
       // Disable the "Add Option" button if a .option is selected
-      let addOptionBtn = this.options2.querySelector('.add-option-btn');
+      let addOptionBtn = this.advancedOptions.querySelector('.add-option-btn');
       if (event.target.classList.contains('option')) {
         addOptionBtn.disabled = true;
       } else {
@@ -220,14 +252,12 @@ let app = {
   },
 
   formInputGroupAddInput: function () {
-    this.selected.innerHTML = `
+    this.selected.innerHTML += `
       <div class="form-item">
         <label for=""></label>
         <input name="" type="text" placeholder="">
       </div>
     `;
-    // const items = this.selected.querySelectorAll('.form-item');
-    // items[items.length - 1].click();
   },
 
   formInputTypeUpdate: function (event) {
@@ -239,24 +269,24 @@ let app = {
         optionId: 'option1',
       });
 
-      this.options2.innerHTML = components.radioCheckboxOptionsPanel({
+      this.advancedOptions.innerHTML = components.radioCheckboxOptionsPanel({
         name: this.selected.querySelector('input').name || '',
         label: this.selected.querySelector('label').innerText || '',
       });
-      this.options2.classList.remove('hidden');
+      this.advancedOptions.classList.remove('hidden');
 
-      let addOptionBtn = this.options2.querySelector('.add-option-btn');
+      let addOptionBtn = this.advancedOptions.querySelector('.add-option-btn');
       if (addOptionBtn) {
         addOptionBtn.disabled = false;
       }
-      this.options2.querySelector('#prompt').value = `Prompt/Question`;
+      this.advancedOptions.querySelector('#prompt').value = `Prompt/Question`;
       this.selected.click();
     } else if (['file', 'color'].includes(newType)) {
       this.selected.innerHTML = components.fileMediaInput({
         type: newType,
         required: false,
       });
-      this.options2.classList.add('hidden');
+      this.advancedOptions.classList.add('hidden');
     } else if (
       [
         'number',
@@ -272,13 +302,20 @@ let app = {
         type: newType,
         required: false,
       });
-      this.options2.classList.add('hidden');
+      this.advancedOptions.classList.add('hidden');
     } else {
+      // For text-based inputs, update the input and ensure the advanced options panel is shown
       this.selected.innerHTML = components.textInput({
         type: newType,
         required: false,
       });
-      this.options2.classList.add('hidden');
+      // Display the advanced options for text-based inputs
+      if (['text', 'password', 'search', 'tel', 'url'].includes(newType)) {
+        this.advancedOptions.innerHTML = components.textInputsOptionsPanel();
+        this.advancedOptions.classList.remove('hidden');
+      } else {
+        this.advancedOptions.classList.add('hidden');
+      }
     }
   },
 
@@ -323,6 +360,42 @@ let app = {
 
   formInputStepUpdate: function (event) {
     this.selected.querySelector('input').step = event.target.value;
+  },
+
+  formInputMinlengthUpdate: function (event) {
+    this.selected
+      .querySelector('input')
+      .setAttribute('minlength', event.target.value);
+  },
+
+  formInputMaxlengthUpdate: function (event) {
+    this.selected
+      .querySelector('input')
+      .setAttribute('maxlength', event.target.value);
+  },
+
+  formInputPatternUpdate: function (event) {
+    this.selected
+      .querySelector('input')
+      .setAttribute('pattern', event.target.value);
+  },
+
+  formInputReadonlyUpdate: function (event) {
+    let input = this.selected.querySelector('input');
+    if (event.target.checked) {
+      input.setAttribute('readonly', true);
+    } else {
+      input.removeAttribute('readonly');
+    }
+  },
+
+  formInputDisabledUpdate: function (event) {
+    let input = this.selected.querySelector('input');
+    if (event.target.checked) {
+      input.setAttribute('disabled', true);
+    } else {
+      input.removeAttribute('disabled');
+    }
   },
 
   formInputUp: function () {

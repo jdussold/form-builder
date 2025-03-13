@@ -1,5 +1,6 @@
-// Input types: email, password, search, tel, text, url
+// Input types: password, search, tel, text, url
 
+// renders the basic options panel
 // prettier-ignore
 components.textInputOptions = function ({
   name = '',
@@ -27,10 +28,42 @@ components.textInputOptions = function ({
   `;
 };
 
+// Updates the innerHTML of the form-item input element
 // prettier-ignore
 components.textInput = function ({ type = 'text', placeholder = '', required = false } = {}) {
   return `
     <label for=""></label>
     <input name="" type="${type}" ${placeholder ? `placeholder="${placeholder}"` : ''} ${required ? 'required' : ''}>
+  `;
+};
+
+// renders the advanced options panel
+// prettier-ignore
+components.textInputsOptionsPanel = function ({
+  minlength = '',
+  maxlength = '',
+  pattern = '',
+  readonly = false,
+  disabled = false,
+} = {}) {
+  return `
+    <div class="options-header">
+      <h3>Advanced:</h3>
+    </div>
+    
+    <label for="minlength">Min Length</label>
+    <input type="number" id="minlength" value="${minlength}" onkeyup="app.formInputMinlengthUpdate(event)">
+
+    <label for="maxlength">Max Length</label>
+    <input type="number" id="maxlength" value="${maxlength}" onkeyup="app.formInputMaxlengthUpdate(event)">    
+    
+    <label for="pattern">Pattern</label>
+    <input type="text" id="pattern" placeholder="Pattern" value="${pattern}" onkeyup="app.formInputPatternUpdate(event)">
+
+    <label for="readonly">Readonly</label>
+    <input type="checkbox" id="readonly" ${readonly ? 'checked' : ''} onchange="app.formInputReadonlyUpdate(event)">
+
+    <label for="disabled">Disabled</label>
+    <input type="checkbox" id="disabled" ${disabled ? 'checked' : ''} onchange="app.formInputDisabledUpdate(event)">
   `;
 };
