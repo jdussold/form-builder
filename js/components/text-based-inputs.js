@@ -3,11 +3,11 @@
 // renders the basic options panel
 // prettier-ignore
 components.textInputOptions = function ({
+  type = 'text',
   name = '',
   label = '',
   placeholder = '',
   required = false,
-  type = 'text',
 } = {}) {
   return `
     ${components.typeDropdown(type)}
@@ -39,7 +39,7 @@ components.textInput = function ({ type = 'text', placeholder = '', required = f
 
 // renders the advanced options panel
 // prettier-ignore
-components.textInputsOptionsPanel = function ({
+components.textInputsAdvancedOptions = function ({
   minlength = '',
   maxlength = '',
   pattern = '',

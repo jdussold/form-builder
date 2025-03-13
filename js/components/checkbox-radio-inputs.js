@@ -28,7 +28,8 @@ components.radioCheckboxInput = function ({
 };
 
 // prettier-ignore
-components.radioCheckboxOptionsPanel = function ({ 
+components.radioCheckboxAdvancedOptions = function ({ 
+  prompt = '',
   name = '',
   label = '',
 } = {}) {
@@ -37,7 +38,7 @@ components.radioCheckboxOptionsPanel = function ({
       <h3>Options:</h3>
     </div>
     <label for="prompt">Prompt</label>
-    <input type="text" id="prompt" placeholder="Enter prompt" onkeyup="app.formOptionAddPrompt(event)">
+    <input type="text" id="prompt" placeholder="Prompt / Queston" value="${prompt}" onkeyup="app.formOptionAddPrompt(event)">
     
     <label for="radioName">Name</label>
     <input type="text" placeholder="Name" id="radioName" value="${name}" onkeyup="app.formInputNameUpdate(event)">
