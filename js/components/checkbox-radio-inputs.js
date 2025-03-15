@@ -16,7 +16,7 @@ components.radioCheckboxInputOptions = function ({
 components.radioCheckboxInput = function ({
   inputType = 'radio',
   optionValue = 'Option 1',
-  optionId = 'option1',
+  optionId = 'radio-1-option1',
 } = {}) {
   return `
     <p class="option-prompt">Prompt/Question</p>

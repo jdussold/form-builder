@@ -384,6 +384,10 @@ header #advanced-options button:disabled {
   opacity: 0.4;
   background-color: var(--btn);
 }
+header #basic-options input[type='checkbox']:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
 
 header #basic-options .delete-btn,
 header #basic-options .remove-btn,
@@ -601,11 +605,30 @@ main {
   opacity: 0;
   font-size: 14px;
   color: var(--bg-page);
-  background-color: var(--status-success);
   border-radius: 3px;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
   transform: translateX(100%);
   animation: slideIn 0.3s forwards, fadeOut 0.5s 2s forwards;
+}
+
+/* Success toast (default) */
+.toast.success {
+  background-color: var(--status-success);
+}
+
+/* Warning toast */
+.toast.warning {
+  background-color: var(--status-warning);
+}
+
+/* Error toast */
+.toast.error {
+  background-color: var(--status-error);
+}
+
+/* Info toast */
+.toast.info {
+  background-color: var(--status-info);
 }
 
 @keyframes slideIn {

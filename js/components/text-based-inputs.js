@@ -30,9 +30,9 @@ components.textInputOptions = function ({
 
 // Updates the innerHTML of the form-item input element
 // prettier-ignore
-components.textInput = function ({ type = 'text', placeholder = '', required = false } = {}) {
+components.textInput = function ({ type = 'text', placeholder = '', required = false, inputId = '', } = {}) {
   return `
-    <label for=""></label>
+    <label for="${inputId}"></label>
     <input name="" type="${type}" ${placeholder ? `placeholder="${placeholder}"` : ''} ${required ? 'required' : ''}>
   `;
 };

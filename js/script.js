@@ -1,5 +1,7 @@
 let app = {
   selected: null,
+  nextGroupUID: 1,
+  nextElementUID: 1,
   form: document.querySelector('#form'),
   basicOptions: document.querySelector('#basic-options'),
   advancedOptions: document.querySelector('#advanced-options'),
@@ -42,6 +44,8 @@ let app = {
       let promptInput = this.advancedOptions.querySelector('#prompt');
       let radioName = this.advancedOptions.querySelector('#radioName');
       let radioLabel = this.advancedOptions.querySelector('#radioLabel');
+      let radioRequiredCheckbox =
+        this.basicOptions.querySelector('#radioRequired');
 
       if (this.selected.classList.contains('option')) {
         if (typeDropdown) typeDropdown.disabled = true;
@@ -49,6 +53,7 @@ let app = {
         if (radioName) radioName.disabled = false;
         if (radioLabel) radioLabel.disabled = false;
         if (addOptionBtn) addOptionBtn.disabled = true;
+        if (radioRequiredCheckbox) radioRequiredCheckbox.disabled = true;
       } else {
         if (typeDropdown) typeDropdown.disabled = false;
         if (promptInput) {
@@ -58,6 +63,7 @@ let app = {
         if (radioName) radioName.disabled = true;
         if (radioLabel) radioLabel.disabled = true;
         if (addOptionBtn) addOptionBtn.disabled = false;
+        if (radioRequiredCheckbox) radioRequiredCheckbox.disabled = false;
       }
     }
   },
@@ -189,10 +195,12 @@ let app = {
   },
 
   formRowAddInput: function () {
+    // Generate a unique id using the new counter.
+    let inputId = `text-${this.nextElementUID++}-option1`;
     this.selected.innerHTML += `
       <div class="form-item">
-        <label for=""></label>
-        <input name="" type="text" placeholder="">
+        <label for="${inputId}"></label>
+        <input name="" type="text" id="${inputId}" placeholder="">
       </div>
     `;
   },
@@ -200,10 +208,14 @@ let app = {
   formInputTypeUpdate: function (event) {
     let newType = event.target.value;
     if (newType === 'radio' || newType === 'checkbox') {
+      if (!this.selected.hasAttribute('data-uid')) {
+        this.selected.setAttribute('data-uid', this.nextGroupUID++);
+      }
+      let groupUID = this.selected.getAttribute('data-uid');
       this.selected.innerHTML = components.radioCheckboxInput({
         inputType: newType,
         optionValue: 'Option 1',
-        optionId: 'option1',
+        optionId: `${newType}-${groupUID}-option1`,
       });
       this.advancedOptions.innerHTML = components.radioCheckboxAdvancedOptions({
         name: this.selected.querySelector('input').name || '',
@@ -219,9 +231,11 @@ let app = {
       this.selected.click();
     } else {
       // For text-based inputs, update the input and ensure the advanced options panel is shown
+      let newID = `${newType}-option1-${this.nextElementUID++}`;
       this.selected.innerHTML = components.textInput({
         type: newType,
         required: false,
+        inputId: newID,
       });
       // Display the advanced options for text-based inputs
       if (['text', 'password', 'search', 'tel', 'url'].includes(newType)) {
@@ -244,60 +258,112 @@ let app = {
       .join('');
   },
 
-  // Update the label text and the "for" and "id" attributes
   formInputLabelUpdate: function (event) {
     let labelEl = this.selected.querySelector('label');
-    let inputValue = event.target.value.trim();
-    labelEl.innerText = inputValue;
-    let forAttribute = inputValue.toLowerCase().replace(/\s/g, '-');
-    labelEl.setAttribute('for', forAttribute);
-
     let inputEl = this.selected.querySelector('input');
-    inputEl.setAttribute('id', forAttribute);
+    let inputValue = event.target.value.trim();
+
+    labelEl.innerText = inputValue;
+    inputEl.value = inputValue;
+
+    if (!['radio', 'checkbox'].includes(inputEl.type)) {
+      labelEl.setAttribute('for', inputEl.getAttribute('id'));
+    } else {
+      let currentId = inputEl.getAttribute('id');
+      labelEl.setAttribute('for', currentId);
+    }
   },
 
   formInputMinUpdate: function (event) {
-    this.selected.querySelector('input').min = event.target.value;
+    let input = this.selected.querySelector('input');
+    if (event.target.value === '') {
+      input.removeAttribute('min');
+    } else {
+      input.setAttribute('min', event.target.value);
+    }
   },
 
   formInputMaxUpdate: function (event) {
-    this.selected.querySelector('input').max = event.target.value;
+    let input = this.selected.querySelector('input');
+    if (event.target.value === '') {
+      input.removeAttribute('max');
+    } else {
+      input.setAttribute('max', event.target.value);
+    }
   },
 
   formInputPlaceholderUpdate: function (event) {
-    this.selected.querySelector('input').placeholder = event.target.value;
+    let input = this.selected.querySelector('input');
+    if (event.target.value.trim() === '') {
+      input.removeAttribute('placeholder');
+    } else {
+      input.setAttribute('placeholder', event.target.value.trim());
+    }
   },
 
   formInputRequiredUpdate: function (event) {
-    this.selected.querySelector('input').required = event.target.checked;
+    let input = this.selected.querySelector('input');
+    if (!input) return;
+    if (input.type === 'radio' || input.type === 'checkbox') {
+      let inputs = this.selected.querySelectorAll(
+        'input[type="radio"], input[type="checkbox"]'
+      );
+      if (event.target.checked) {
+        if (inputs.length) {
+          inputs[0].setAttribute('required', '');
+        }
+      } else {
+        inputs.forEach((i) => i.removeAttribute('required'));
+      }
+    } else {
+      if (event.target.checked) {
+        input.setAttribute('required', '');
+      } else {
+        input.removeAttribute('required');
+      }
+    }
   },
 
   formInputStepUpdate: function (event) {
-    this.selected.querySelector('input').step = event.target.value;
+    let input = this.selected.querySelector('input');
+    if (event.target.value === '') {
+      input.removeAttribute('step');
+    } else {
+      input.setAttribute('step', event.target.value);
+    }
   },
 
   formInputMinlengthUpdate: function (event) {
-    this.selected
-      .querySelector('input')
-      .setAttribute('minlength', event.target.value);
+    let input = this.selected.querySelector('input');
+    if (event.target.value === '') {
+      input.removeAttribute('minlength');
+    } else {
+      input.setAttribute('minlength', event.target.value);
+    }
   },
 
   formInputMaxlengthUpdate: function (event) {
-    this.selected
-      .querySelector('input')
-      .setAttribute('maxlength', event.target.value);
+    let input = this.selected.querySelector('input');
+    if (event.target.value === '') {
+      input.removeAttribute('maxlength');
+    } else {
+      input.setAttribute('maxlength', event.target.value);
+    }
   },
 
   formInputPatternUpdate: function (event) {
-    this.selected
-      .querySelector('input')
-      .setAttribute('pattern', event.target.value);
+    let input = this.selected.querySelector('input');
+    if (event.target.value.trim() === '') {
+      input.removeAttribute('pattern');
+    } else {
+      input.setAttribute('pattern', event.target.value.trim());
+    }
   },
 
   formInputReadonlyUpdate: function (event) {
     let input = this.selected.querySelector('input');
     if (event.target.checked) {
-      input.setAttribute('readonly', true);
+      input.setAttribute('readonly', '');
     } else {
       input.removeAttribute('readonly');
     }
@@ -306,7 +372,7 @@ let app = {
   formInputDisabledUpdate: function (event) {
     let input = this.selected.querySelector('input');
     if (event.target.checked) {
-      input.setAttribute('disabled', true);
+      input.setAttribute('disabled', '');
     } else {
       input.removeAttribute('disabled');
     }
@@ -338,21 +404,19 @@ let app = {
     let optionsContainer = this.selected;
     let optionCount =
       optionsContainer.querySelectorAll('.form-item.option').length;
-
     let inputEl = optionsContainer.querySelector('input');
-    if (!inputEl) return; // Exit if there's no input to determine type
-
+    if (!inputEl) return;
     let inputType = inputEl.type;
     let optionNumber = optionCount + 1;
     let optionValue = `Option ${optionNumber}`;
-
+    let groupUID = optionsContainer.getAttribute('data-uid') || '1';
+    let newId = `${inputType}-${groupUID}-option${optionNumber}`;
     let newOptionHTML = `    
       <div class="form-item option">
-        <input name="" type="${inputType}" value="${optionValue}" id="option${optionNumber}">
-        <label for="option${optionNumber}">${optionValue}</label>
+        <input name="" type="${inputType}" value="${optionValue}" id="${newId}">
+        <label for="${newId}">${optionValue}</label>
       </div>
     `;
-
     optionsContainer.innerHTML += newOptionHTML;
   },
 
@@ -383,6 +447,33 @@ let app = {
   },
 
   generateHTML: function () {
+    // Check for any required checkboxes in the form.  These require custom validation.
+    let requiredCheckboxes = this.form.querySelectorAll(
+      'input[type="checkbox"][required]'
+    );
+    let requiredNames = new Set();
+    requiredCheckboxes.forEach((checkbox) => {
+      if (checkbox.name) {
+        requiredNames.add(checkbox.name);
+      }
+    });
+
+    let messageText = '';
+    if (requiredNames.size > 0) {
+      let namesArray = Array.from(requiredNames);
+      messageText = `***** WARNING: Custom validation is required for the following checkbox groups: ${namesArray.join(
+        ', '
+      )} *****\n\n`;
+
+      // Trigger a toast message using your class-based styling for warnings
+      this.showToast(
+        `Custom validation required for checkbox groups: \n${namesArray.join(
+          ', '
+        )}`,
+        'warning'
+      );
+    }
+
     let html = this.form.outerHTML;
     html = html.replace(/ onclick\=\"(.*?)\"/gim, '');
     html = html.replace(
@@ -399,6 +490,8 @@ let app = {
       html = html_beautify(html, { indent_size: 2, wrap_line_length: 80 });
     }
 
+    // Prepend the warning message (if any) to the generated HTML without using a div
+    html = messageText + html;
     this.code.value = html;
     this.codeContainer.classList.remove('hidden');
   },
