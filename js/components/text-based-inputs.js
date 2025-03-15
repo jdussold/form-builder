@@ -1,5 +1,6 @@
 // Input types: password, search, tel, text, url
 
+import components from './components.js';
 // renders the basic options panel
 // prettier-ignore
 components.textInputOptions = function ({
@@ -67,3 +68,5 @@ components.textInputsAdvancedOptions = function ({
     <input type="checkbox" id="disabled" ${disabled ? 'checked' : ''} onchange="app.formInputDisabledUpdate(event)">
   `;
 };
+
+export default components;

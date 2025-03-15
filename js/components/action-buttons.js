@@ -1,4 +1,6 @@
 // Move up, Move down, and delete buttons
+import components from './components.js';
+
 components.actionButtons = function () {
   return `
     <button class="move-up-btn" aria-label="move-up" onclick="app.formInputUp()">
@@ -12,3 +14,5 @@ components.actionButtons = function () {
     </button>
   `;
 };
+
+export default components;

@@ -1,15 +1,20 @@
 // Input types: checkbox, radio
 
+import components from './components.js';
+
 // prettier-ignore
 components.radioCheckboxInputOptions = function ({
   required = false,
   type = 'radio',
+  disabled = false,
 } = {}) {
   return `
-    ${components.typeDropdown(type)}
+    ${components.typeDropdown(type, disabled)}
     
     <label for="radioRequired">Required</label>
-    <input type="checkbox" id="radioRequired" ${ required ? 'checked' : '' } onchange="app.formInputRequiredUpdate(event)">
+    <span class="tooltip-wrapper" ${ disabled ? 'data-tippy-content="You cannot change the required status when an option is selected."' : '' }>
+      <input type="checkbox" id="radioRequired" ${ required ? 'checked' : '' } onchange="app.formInputRequiredUpdate(event)">
+    </span>
   `;
 };
 
@@ -32,13 +37,16 @@ components.radioCheckboxAdvancedOptions = function ({
   prompt = '',
   name = '',
   label = '',
+  disabled = false,
 } = {}) {
   return `
     <div class="options-header">
       <h3>Options:</h3>
     </div>
     <label for="prompt">Prompt</label>
-    <input type="text" id="prompt" placeholder="Prompt / Queston" value="${prompt}" onkeyup="app.formOptionAddPrompt(event)">
+    <span class="tooltip-wrapper" ${ disabled ? 'data-tippy-content="You cannot change the prompt when an option is selected."' : '' }>
+      <input type="text" id="prompt" placeholder="Prompt / Queston" value="${prompt}" onkeyup="app.formOptionAddPrompt(event)">
+    </span>
     
     <label for="radioName">Name</label>
     <input type="text" placeholder="Name" id="radioName" value="${name}" onkeyup="app.formInputNameUpdate(event)">
@@ -58,3 +66,5 @@ components.radioCheckboxAdvancedOptions = function ({
     <button class="add-option-btn" onclick="app.formInputAddOption()">Add Option</button>
   `;
 }
+
+export default components;

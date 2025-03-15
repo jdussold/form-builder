@@ -1,3 +1,5 @@
+import components from './components.js';
+
 components.addFormRows = function () {
   return `
     <h3>Form</h3>
@@ -17,3 +19,5 @@ components.formRowInputOptions = function () {
     <button class="delete-btn" onclick="app.formRowDelete()"><i class="fa-solid fa-trash-can fa-icon"></i></button>
   `;
 };
+
+export default components;

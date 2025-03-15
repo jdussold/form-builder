@@ -1,0 +1,20 @@
+# Node modules – do not commit these
+node_modules/
+
+# Built output (Vite’s production build)
+dist/
+
+# Local development files (for example, Vite's cache)
+.vite/
+
+# Environment files (if any)
+.env
+.env.local
+.env.*.local
+
+# System files
+.DS_Store
+
+# IDE or editor config files
+.idea/
+.vscode/

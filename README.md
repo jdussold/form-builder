@@ -14,25 +14,63 @@ Check out the live app here: [Form Builder Live Demo](https://jdussold.github.io
 - **Theme Toggle:** Switch between light and dark themes.
 - **Code Beautification:** The generated HTML is automatically formatted for readability.
 - **Copy-to-Clipboard:** Easily copy the generated code with a single button click.
+- **Uses Vite for Development:** Fast, optimized development environment.
+- **Uses Tippy.js for Tooltips:** Enhances UX with better tooltip support.
 
-> _Note: The current design is inspired by Astro's design elements as showcased on Figma (licensed under CC BY 4.0)._
+## Installation and Setup
 
-## Installation
+### Prerequisites
 
-1. **Clone or Download the Repository:**  
-   Download the source code or clone the repository to your local machine.
+Ensure you have **Node.js** installed on your system. You can check by running:
 
-2. **Open the Application:**  
-   Open the `index.html` file in your preferred web browser, or serve it via a local web server.
+```sh
+node -v
+```
 
-3. **Start Building:**  
-   Use the on-screen buttons and options to begin constructing your form.
+If not installed, download it from [nodejs.org](https://nodejs.org/).
+
+### Steps to Install and Run the App
+
+1. **Clone the Repository:**
+
+   ```sh
+   git clone https://github.com/your-username/form-builder.git
+   cd form-builder
+   ```
+
+2. **Install Dependencies:**
+
+   ```sh
+   npm install
+   ```
+
+3. **Run the Development Server:**
+
+   ```sh
+   npm run dev
+   ```
+
+   This will start a local development server using Vite. The app will be available at the provided local URL (e.g., `http://localhost:5173`).
+
+4. **Build for Production (Optional):**
+
+   ```sh
+   npm run build
+   ```
+
+   This will generate optimized files in the `dist/` directory.
+
+5. **Preview Production Build (Optional):**
+   ```sh
+   npm run preview
+   ```
+   This will serve the built files to test the production version locally.
 
 ## Usage
 
 1. **Adding Form Elements:**
 
-   - Click the "Add InputGroup" buttons to create new form rows.
+   - Click the "Add Input Group" buttons to create new form rows.
    - Use the provided options to add various input types to each row.
 
 2. **Customizing Inputs:**
@@ -43,7 +81,6 @@ Check out the live app here: [Form Builder Live Demo](https://jdussold.github.io
 3. **Reordering Elements:**
 
    - Move elements up or down using the provided arrow buttons.
-   - _Future enhancement:_ Implement drag and drop for a smoother experience.
 
 4. **Generating HTML:**
 
@@ -52,12 +89,6 @@ Check out the live app here: [Form Builder Live Demo](https://jdussold.github.io
 
 5. **Theme Toggle:**
    - Click the sun/moon icon to switch between light and dark themes.
-
-## File Structure
-
-- **HTML:** Contains the base layout of the form builder and references to external assets.
-- **CSS:** Provides styling for the light and dark themes, layout, and interactive elements.
-- **JavaScript:** Powers the dynamic behavior of the app, including element manipulation, event handling, and code generation.
 
 ## Screenshots
 
@@ -77,26 +108,39 @@ Check out the live app here: [Form Builder Live Demo](https://jdussold.github.io
 
   ![Dark Mode Theme](./assets/img/dark-mode.png)
 
+## File Structure
+
+```
+form-builder/
+│── index.html           # Main HTML file
+│── vite.config.js       # Vite configuration file
+│── package.json         # Project metadata and dependencies
+│── package-lock.json    # Auto-generated dependency lock file
+│── .gitignore           # Specifies files to ignore in Git
+│
+├── src/                 # Source files
+│   ├── js/              # JavaScript logic
+│   │   ├── script.js    # Main application logic
+│   │   ├── components/  # Modular UI components
+│   │
+│   ├── css/             # Stylesheets
+│   │   ├── style.css    # Main styling
+│
+├── public/              # Static assets
+│   ├── assets/          # Images, icons, etc.
+│
+├── dist/                # Production-ready build files (generated after `npm run build`)
+```
+
 ## Future Updates / To-Do
 
-- **Save and Resume:**  
-  Implement functionality to save the current form state and resume building later.
-- **Enhanced Options for Multi-Option Fields:**  
-  Add a paragraph element to multi-option fields such as checkboxes and radio buttons.
-- **Drag and Drop Functionality:**  
-  Upgrade the current move up/down buttons to a full drag and drop experience for reordering form elements.
-- **Preview Functionality:**  
-  Provide a live preview mode to see how the form will look when rendered.
-- **Export CSS Classes:**  
-  Allow exporting of assigned CSS classes for further customization in external stylesheets.
-- **Export Form "Name" Attributes:**  
-  Enable exporting the form's name attributes to improve integration with backend systems.
-- **Additional Enhancements:**
-  - Accessibility improvements (keyboard navigation, ARIA attributes)
-  - Expanded input type support and customization options
-  - Mobile responsiveness and performance optimizations
-  - Integration with backend APIs for form submission and data handling
+- **Save and Resume:** Implement functionality to save the current form state and resume building later.
+- **Drag and Drop Functionality:** Upgrade the current move up/down buttons to a full drag and drop experience.
+- **Live Preview Mode:** Provide a real-time preview of the form as it's being built.
+- **Backend Integration:** Add support for form submission and storage with backend APIs.
 
 ## Acknowledgments
 
 - Design inspiration by [Astro](https://www.figma.com/community/file/1157371532469023309) (CC BY 4.0).
+- Uses [Vite](https://vitejs.dev/) for fast development.
+- Uses [Tippy.js](https://atomiks.github.io/tippyjs/) for tooltips.

@@ -1,0 +1,28 @@
+{
+  "name": "form-builder",
+  "version": "1.0.0",
+  "description": "A lightweight, web-based form builder that allows you to visually create HTML forms with ease. This app is built using HTML, CSS, and JavaScript, and provides a user-friendly interface to add, customize, and rearrange form elements. The generated HTML code is beautified and can be copied to your clipboard for easy integration into your projects.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jdussold/form-builder.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/jdussold/form-builder/issues"
+  },
+  "homepage": "https://github.com/jdussold/form-builder#readme",
+  "dependencies": {
+    "@popperjs/core": "^2.11.8",
+    "tippy.js": "^6.3.7"
+  },
+  "devDependencies": {
+    "vite": "^6.2.2"
+  }
+}

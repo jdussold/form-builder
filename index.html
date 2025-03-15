@@ -7,13 +7,7 @@
     <link rel="stylesheet" href="assets/fontawesome/css/all.min.css" />
     <link rel="stylesheet" href="css/style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-beautify/1.14.0/beautify-html.min.js"></script>
-    <script src="js/components/components.js"></script>
-    <script src="js/components/form-rows.js"></script>
-    <script src="js/components/action-buttons.js"></script>
-    <script src="js/components/type-dropdown.js"></script>
-    <script src="js/components/text-based-inputs.js"></script>
-    <script src="js/components/checkbox-radio-inputs.js"></script>
-    <script src="js/script.js" defer></script>
+    <script type="module" src="js/script.js"></script>
   </head>
   <body>
     <header>
@@ -28,7 +22,6 @@
               <input
                 type="checkbox"
                 id="theme-checkbox"
-                onclick="app.toggleTheme()"
                 aria-label="Toggle Theme"
               />
               <span class="slider">
@@ -39,7 +32,7 @@
           </div>
           <div class="nav-item">
             <label for="method">Method</label>
-            <select id="method" onchange="app.formMethodUpdate(event)">
+            <select id="method">
               <option value="GET">GET</option>
               <option value="POST">POST</option>
               <option value="PUT">PUT</option>
@@ -49,15 +42,10 @@
           </div>
           <div class="nav-item">
             <label>Action</label>
-            <input
-              type="text"
-              id="url"
-              placeholder="/api/signup.php"
-              onkeyup="app.formActionUpdate(event)"
-            />
+            <input type="text" id="url" placeholder="/api/signup.php" />
           </div>
           <div class="nav-item">
-            <button onClick="app.generateHTML()">Generate HTML</button>
+            <button id="generate-html">Generate HTML</button>
           </div>
         </div>
       </nav>
@@ -66,23 +54,17 @@
     </header>
     <main>
       <div class="center-text">Borders will not appear on final product.</div>
-      <form
-        id="form"
-        class="form"
-        method="GET"
-        action=""
-        onclick="app.select(event)"
-      >
+      <form id="form" class="form" method="GET" action="">
         <p class="start-text">Click here to start creating your form</p>
       </form>
       <div class="code-container hidden">
         <div class="code-header">
           <h3>HTML Code</h3>
-          <button class="copy-btn" onClick="app.copyCode()">
+          <button class="copy-btn" id="copy-code-btn">
             <i class="fa-solid fa-copy fa-xl"></i>
           </button>
         </div>
-        <textarea id="code" onclick="app.select(event)"></textarea>
+        <textarea id="code"></textarea>
       </div>
       <!-- Toast Notification -->
       <div id="toast-container"></div>
